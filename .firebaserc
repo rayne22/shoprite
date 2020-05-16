@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "shoperite-d69fa": {
+      "hosting": {
+        "shoprite": [
+          "shoperite-d69fa"
+        ]
+      }
+    }
+  }
+}

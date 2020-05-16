@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "shoprite": {
@@ -117,8 +117,16 @@
               "devServerTarget": "shoprite:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
-  "defaultProject": "shoprite"
+    }
+  },
+  "defaultProject": "shoprite",
+  "cli": {
+    "analytics": "b95154c3-1657-4fc4-a3ba-a3e9f03d35b1"
+  }
 }
