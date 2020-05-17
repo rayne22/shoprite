@@ -6,8 +6,11 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFireDatabaseModule } from "@angular/fire/database";
 import { AngularFireStorageModule, BUCKET } from "@angular/fire/storage";
-import { environment } from "../environments/environment";
 import "firebase/storage";
+import { AppRoutingModule } from "./app-routing.module";
+import { NavbarComponent } from "./components/navbar/navbar.component";
+import { HomeComponent } from "./home/home.component";
+import { FooterComponent } from './components/footer/footer.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm5IkoRBkSDIg4PoU7VBrGBh5gAlnxmvQ",
@@ -21,9 +24,10 @@ const firebaseConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HomeComponent, NavbarComponent, FooterComponent],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
