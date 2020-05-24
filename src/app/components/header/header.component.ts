@@ -10,10 +10,12 @@ import { NzMessageService } from "ng-zorro-antd";
 })
 export class HeaderComponent implements OnInit {
   isVisible = false;
+  searchString: number;
 
   listOfData: CartModel[];
   listOfDisplayData: CartModel[];
   cart: CartModel;
+  quant: CartModel;
 
   constructor(
     private cartService: CartService,
@@ -42,5 +44,12 @@ export class HeaderComponent implements OnInit {
   handleCancel(): void {
     console.log("Button cancel clicked!");
     this.isVisible = false;
+  }
+
+  log(value) {
+    this.quant = this.listOfDisplayData.filter((x) => x.id === value)[0];
+    // this.quant.quantity = res;
+
+    console.log("QUANT>>>", this.quant.quantity);
   }
 }

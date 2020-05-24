@@ -118,12 +118,21 @@
         <ng-container>
           <nz-list-item-meta [nzDescription]="item.cartDescription">
           </nz-list-item-meta>
-          {{ item.quantity }}
-          <nz-list-item-extra></nz-list-item-extra>
-          <nz-list-item-extra>ZMW{{ item.amount }}</nz-list-item-extra>
+
+          <nz-list-item-extra
+            ><input
+              type="text"
+              nz-input
+              placeholder="{{ item.quantity }}"
+              [(ngModel)]="searchString"
+              (ngModelChange)="log($event)"
+          /></nz-list-item-extra>
+          <nz-list-item-extra> ZMW {{ item.amount }}</nz-list-item-extra>
           <ul nz-list-item-actions>
             <nz-list-item-action
-              ><a (click)="edit(item)">edit</a></nz-list-item-action
+              ><a (click)="edit(item)" style="color: red;"
+                >remove</a
+              ></nz-list-item-action
             >
           </ul>
         </ng-container>
@@ -132,7 +141,11 @@
   </nz-card>
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-    <button nz-button style="background-color: red;" (click)="handleOk()">
+    <button
+      nz-button
+      style="background-color: red; color: #fff;"
+      (click)="handleOk()"
+    >
       Checkout
     </button>
   </ng-template>
