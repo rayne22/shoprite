@@ -1,15 +1,16 @@
-import { ItemModel } from "./items.model";
+import { CartModel } from "./cart.model";
 
 export class OrderModel {
   id: string;
   orderNumber: string;
-  quantity: string;
+  quantity: number;
   amount: number;
   deliveryStatus: DeliveryStatus;
   clientName: string;
   clientId: string;
   clientAddress: string;
-  item: ItemModel[];
+  clientPhone: string;
+  cart: CartModel[];
 }
 
 export type DeliveryStatus = "Delivered" | "Not Delivered" | "In Transit";

@@ -102,7 +102,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addNewItem(value, category) {
     this.router.navigateByUrl(
-      "/product-details/" + category.categoryNumber + value.itemNumber
+      "/product-details/" + this.id + "/" + value.itemNumber
     );
   }
 }

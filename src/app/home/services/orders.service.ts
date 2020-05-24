@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { CartModel } from "../models/cart.model";
 import { Observable } from "rxjs";
 import {
   AngularFirestore,
@@ -9,13 +8,14 @@ import { NzMessageService } from "ng-zorro-antd";
 import { HttpClient } from "@angular/common/http";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { filter, first, map, finalize } from "rxjs/operators";
+import { OrderModel } from "../models/orders.model";
 
 @Injectable({
   providedIn: "root",
 })
-export class CartService {
-  private cartCollection: AngularFirestoreCollection<CartModel>;
-  cart: Observable<CartModel[]>;
+export class OrdersService {
+  private ordersCollection: AngularFirestoreCollection<OrderModel>;
+  orders: Observable<OrderModel[]>;
 
   constructor(
     private firebase: AngularFirestore,
@@ -23,20 +23,20 @@ export class CartService {
     private http: HttpClient,
     private storage: AngularFireStorage
   ) {
-    this.cartCollection = firebase.collection<CartModel>("carts");
-    this.cart = this.cartCollection.valueChanges();
+    this.ordersCollection = firebase.collection<OrderModel>("orders");
+    this.orders = this.ordersCollection.valueChanges();
   }
 
   getOrders() {
-    return this.cart;
+    return this.orders;
   }
 
-  addCart(cart: CartModel) {
-    this.cart.pipe(first()).subscribe((carts) => {
-      cart.cartNumber = this.generateCartNumber(carts.length);
-      this.cartCollection
-        .doc(cart.id)
-        .set(cart)
+  addOrder(order: OrderModel) {
+    this.orders.pipe(first()).subscribe((orders) => {
+      order.orderNumber = this.generateOrderNumber(orders.length);
+      this.ordersCollection
+        .doc(order.id)
+        .set(order)
         .then((res) => {
           this.msg.success("Added Successfully");
         })
@@ -46,20 +46,16 @@ export class CartService {
     });
   }
 
-  updateCart(cart: CartModel) {
-    this.cartCollection
-      .doc(cart.id)
-      .update(cart)
+  updateOrder(order: OrderModel) {
+    this.ordersCollection
+      .doc(order.id)
+      .update(order)
       .then((res) => {
         this.msg.success("Updated Successfully");
       })
       .catch((err) => {
         this.msg.warning("failed");
       });
-  }
-
-  updateCartQuantity(cart: CartModel) {
-    this.cartCollection.doc(cart.id).update(cart);
   }
 
   countGenerator(numb) {
@@ -70,14 +66,14 @@ export class CartService {
   }
 
   // Generating Category Number
-  generateCartNumber(totalCart: number) {
-    const count = this.countGenerator(totalCart);
+  generateOrderNumber(totalorders: number) {
+    const count = this.countGenerator(totalorders);
     const today = new Date();
     const dateString: string =
       today.getFullYear().toString().substr(-2) +
       ("0" + (today.getMonth() + 1)).slice(-2) +
       +("0" + today.getDate()).slice(-2);
 
-    return "CRT" + dateString + count;
+    return "ORD" + dateString + count;
   }
 }

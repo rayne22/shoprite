@@ -24,6 +24,7 @@ import { registerLocaleData } from "@angular/common";
 import en from "@angular/common/locales/en";
 import { NgZorroAntdModule } from "ng-zorro-antd";
 import { CartService } from "./home/services/cart.service";
+import { OrdersService } from "./home/services/orders.service";
 
 registerLocaleData(en);
 
@@ -63,6 +64,7 @@ const firebaseConfig = {
     CategoriesService,
     { provide: NZ_I18N, useValue: en_US },
     CartService,
+    OrdersService,
   ],
   bootstrap: [AppComponent],
 })
