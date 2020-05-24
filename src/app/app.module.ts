@@ -3,14 +3,29 @@ import { NgModule } from "@angular/core";
 
 import { AppComponent } from "./app.component";
 import { AngularFireModule } from "@angular/fire";
-import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFireDatabaseModule } from "@angular/fire/database";
+import { AngularFireAnalyticsModule } from "@angular/fire/analytics";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { AngularFireStorageModule, BUCKET } from "@angular/fire/storage";
-import "firebase/storage";
 import { AppRoutingModule } from "./app-routing.module";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { HomeComponent } from "./home/home.component";
-import { FooterComponent } from './components/footer/footer.component';
+import { FooterComponent } from "./components/footer/footer.component";
+import { CategoriesService } from "./home/services/categories.service";
+import { ProductsComponent } from "./components/products/products.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { ProductDetailsComponent } from "./components/product-details/product-details.component";
+import { CartComponent } from "./components/cart/cart.component";
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NZ_I18N } from "ng-zorro-antd/i18n";
+import { en_US } from "ng-zorro-antd/i18n";
+import { registerLocaleData } from "@angular/common";
+import en from "@angular/common/locales/en";
+import { NgZorroAntdModule } from "ng-zorro-antd";
+import { CartService } from "./home/services/cart.service";
+
+registerLocaleData(en);
 
 const firebaseConfig = {
   apiKey: "AIzaSyDm5IkoRBkSDIg4PoU7VBrGBh5gAlnxmvQ",
@@ -24,15 +39,31 @@ const firebaseConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NavbarComponent, FooterComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    NavbarComponent,
+    FooterComponent,
+    ProductsComponent,
+    HeaderComponent,
+    ProductDetailsComponent,
+    CartComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
+    AngularFirestoreModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NgZorroAntdModule,
   ],
-  providers: [],
+  providers: [
+    CategoriesService,
+    { provide: NZ_I18N, useValue: en_US },
+    CartService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
