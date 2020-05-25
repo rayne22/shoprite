@@ -6,7 +6,29 @@
   <div class="w3l_banner_nav_right">
     <section class="slider">
       <div class="flexslider">
-        <ul class="slides">
+        <nz-carousel nzAutoPlay>
+          <div
+            nz-carousel-content
+            [ngStyle]="{ background: 'url(' + this.items.imgUrl + ')' }"
+            ng-style="{'background-repeat': 'no-repeat', 'background-size': 'cover'; }"
+            *ngFor="let index of array"
+          >
+            <!-- <h3>{{ index }}</h3> -->
+
+            <h3 style="float: right; margin-right: 10px; color: azure;">
+              Make your <span>food</span> with Spicy.
+            </h3>
+            <div class="more">
+              <a
+                href="products.html"
+                class="button--saqui button--round-l button--text-thick"
+                data-text="Shop now"
+                >Shop now</a
+              >
+            </div>
+          </div>
+        </nz-carousel>
+        <!-- <ul class="slides">
           <li>
             <div class="w3l_banner_nav_right_banner">
               <h3>Make your <span>food</span> with Spicy.</h3>
@@ -20,7 +42,7 @@
               </div>
             </div>
           </li>
-          <!-- <li>
+          <li>
             <div class="w3l_banner_nav_right_banner1">
               <h3>Make your <span>food</span> with Spicy.</h3>
               <div class="more">
@@ -45,8 +67,8 @@
                 >
               </div>
             </div>
-          </li> -->
-        </ul>
+          </li>
+        </ul> -->
       </div>
     </section>
     <!-- flexSlider -->

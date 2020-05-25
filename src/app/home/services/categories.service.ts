@@ -3,6 +3,7 @@ import { AngularFirestoreCollection } from "@angular/fire/firestore/public_api";
 import { CategoryModel } from "../models/categories.model";
 import { Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
+import { switchMap, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
