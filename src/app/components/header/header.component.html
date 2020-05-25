@@ -43,8 +43,16 @@
         <div class="mega-dropdown-menu">
           <div class="w3ls_vegetables">
             <ul class="dropdown-menu drp-mnu">
-              <li><a href="login.html">Login</a></li>
-              <li><a href="login.html">Sign Up</a></li>
+              <div *ngIf="!authService.userData">
+                <li><a routerLink="/sign-in">Login</a></li>
+                <li><a routerLink="/register-user">Sign Up</a></li>
+              </div>
+              <div *ngIf="authService.userData as user">
+                <li>
+                  <a>{{ user.email }}</a>
+                </li>
+                <li><a (click)="authService.SignOut()">Log Out</a></li>
+              </div>
             </ul>
           </div>
         </div>

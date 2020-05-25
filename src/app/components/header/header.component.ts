@@ -5,6 +5,9 @@ import { NzMessageService } from "ng-zorro-antd";
 import { OrderModel } from "src/app/home/models/orders.model";
 import { v4 } from "uuid";
 import { OrdersService } from "src/app/home/services/orders.service";
+import { AuthService } from "src/app/home/services/auth.service";
+import { UsersService } from "src/app/home/services/users.service";
+import { UserModel } from "src/app/home/models/user.model";
 
 @Component({
   selector: "app-header",
@@ -23,21 +26,31 @@ export class HeaderComponent implements OnInit {
   item: any;
   order: OrderModel;
   newQuantity: number;
+  user: any;
+  userData: any;
 
   constructor(
     private cartService: CartService,
     private orderService: OrdersService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    public authService: AuthService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit(): void {
-    this.cartService.getOrders().subscribe((res) => {
-      this.listOfData = res;
-      this.listOfDisplayData = this.listOfData;
-      console.log("Orders>>>>", this.listOfDisplayData);
-      for (const s of this.listOfDisplayData) {
-        this.total = this.total + s.amount;
-      }
+    this.user = JSON.parse(localStorage.getItem("user"));
+    console.log("USER>>>>>>", this.user);
+    this.usersService.getUsers().subscribe((users) => {
+      this.userData = users.filter((x) => x.email === this.user.email)[0];
+
+      this.cartService.getOrders().subscribe((res) => {
+        this.listOfData = res.filter((x) => x.clientId === this.userData.id);
+        this.listOfDisplayData = this.listOfData;
+        console.log("Orders>>>>", this.listOfDisplayData);
+        for (const s of this.listOfDisplayData) {
+          this.total = this.total + s.amount;
+        }
+      });
     });
   }
 
@@ -72,10 +85,10 @@ export class HeaderComponent implements OnInit {
       quantity: quantitySum,
       amount: this.total,
       deliveryStatus: "Not Delivered",
-      clientName: "test",
-      clientId: "test",
-      clientPhone: "test",
-      clientAddress: "test",
+      clientName: this.userData.clientName,
+      clientId: this.userData.id,
+      clientPhone: this.userData.clientPhone,
+      clientAddress: this.userData.clientAddress,
       cart: this.listOfDisplayData,
     };
 

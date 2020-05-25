@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { AppComponent } from "./app.component";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAnalyticsModule } from "@angular/fire/analytics";
+import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { AngularFireStorageModule, BUCKET } from "@angular/fire/storage";
 import { AppRoutingModule } from "./app-routing.module";
@@ -25,6 +26,11 @@ import en from "@angular/common/locales/en";
 import { NgZorroAntdModule } from "ng-zorro-antd";
 import { CartService } from "./home/services/cart.service";
 import { OrdersService } from "./home/services/orders.service";
+import { SignInComponent } from "./components/sign-in/sign-in.component";
+import { SignUpComponent } from "./components/sign-up/sign-up.component";
+import { VerifyEmailComponent } from "./components/verify-email/verify-email.component";
+import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
+import { AuthService } from "./home/services/auth.service";
 
 registerLocaleData(en);
 
@@ -49,12 +55,17 @@ const firebaseConfig = {
     HeaderComponent,
     ProductDetailsComponent,
     CartComponent,
+    SignInComponent,
+    SignUpComponent,
+    VerifyEmailComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
+    AngularFireAuthModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -65,6 +76,7 @@ const firebaseConfig = {
     { provide: NZ_I18N, useValue: en_US },
     CartService,
     OrdersService,
+    AuthService,
   ],
   bootstrap: [AppComponent],
 })

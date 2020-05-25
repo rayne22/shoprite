@@ -7,6 +7,8 @@ import { CartModel } from "src/app/home/models/cart.model";
 import { CartService } from "src/app/home/services/cart.service";
 import { NzMessageService } from "ng-zorro-antd";
 import { v4 } from "uuid";
+import { UsersService } from "src/app/home/services/users.service";
+import { UserModel } from "src/app/home/models/user.model";
 
 @Component({
   selector: "app-product-details",
@@ -25,13 +27,16 @@ export class ProductDetailsComponent implements OnInit {
   cartObj: CartModel;
   quantity: number;
   exitsts = true;
+  user: any;
+  userData: UserModel;
 
   constructor(
     private readonly router: Router,
     private route: ActivatedRoute,
     private categoryService: CategoriesService,
     private cartService: CartService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +58,13 @@ export class ProductDetailsComponent implements OnInit {
         );
         console.log("Cart >>>>", this.cartList);
       });
+
+      this.user = JSON.parse(localStorage.getItem("user"));
+
+      console.log("USER>>>>>>", this.user);
+      this.usersService.getUsers().subscribe((users) => {
+        this.userData = users.filter((x) => x.email === this.user.email)[0];
+      });
     });
   }
 
@@ -61,13 +73,14 @@ export class ProductDetailsComponent implements OnInit {
       this.cartObj = {
         id: v4(),
         cartNumber: "",
-        amount: value.price,
+        amount: value.price * 1,
         quantity: 1,
         cartDescription: value.itemName,
         checkoutStatus: "Pending Checkout",
-        clientName: "test",
-        clientId: "test",
-        clientAddress: "test",
+        clientName: this.userData.clientName,
+        clientId: this.userData.id,
+        clientAddress: this.userData.clientAddress,
+        clientPhone: this.userData.clientPhone,
         item: [{ ...value }],
       };
 
@@ -77,19 +90,22 @@ export class ProductDetailsComponent implements OnInit {
         console.log("Value Single>>>>", item);
         if (item.cartDescription === value.itemName) {
           item.quantity = item.quantity + 1;
-          item.amount = item.amount + value.price;
+          item.amount = item.amount + value.price * item.quantity;
           this.cartService.updateCart(item);
-        } else {
+        }
+
+        if (item.cartDescription !== value.itemName) {
           this.cartObj = {
             id: v4(),
             cartNumber: "",
-            amount: value.price,
+            amount: value.price * 1,
             quantity: 1,
             cartDescription: value.itemName,
             checkoutStatus: "Pending Checkout",
-            clientName: "test",
-            clientId: "test",
-            clientAddress: "test",
+            clientName: this.userData.clientName,
+            clientId: this.userData.id,
+            clientAddress: this.userData.clientAddress,
+            clientPhone: this.userData.clientPhone,
             item: [{ ...value }],
           };
 

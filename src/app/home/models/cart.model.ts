@@ -10,6 +10,7 @@ export class CartModel {
   clientName: string;
   clientId: string;
   clientAddress: string;
+  clientPhone: string;
   item: ItemModel[];
 }
 
