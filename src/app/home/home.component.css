@@ -6,6 +6,12 @@
   overflow: hidden;
 } */
 
+.image {
+  background-size: contain;
+  width: auto;
+  background-position: 50% 50%;
+}
+
 /* h3 {
   color: #fff;
   margin-bottom: 0;

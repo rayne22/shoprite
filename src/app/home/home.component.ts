@@ -4,6 +4,7 @@ import { CategoriesService } from "./services/categories.service";
 import { CategoryModel } from "./models/categories.model";
 import { combineLatest } from "rxjs";
 import { ItemModel } from "./models/items.model";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -19,9 +20,13 @@ export class HomeComponent implements OnInit {
   newItems: ItemModel[] = [];
   items: any;
 
+  hotOffer: ItemModel[] = [];
+
   constructor(
     private sanitizer: DomSanitizer,
-    private categoryService: CategoriesService
+    private categoryService: CategoriesService,
+    private readonly router: Router,
+    private route: ActivatedRoute
   ) {
     this.backgroundImg = sanitizer.bypassSecurityTrustStyle(
       "url(http://www.freephotos.se/images/photos_medium/white-flower-4.jpg)"
@@ -42,6 +47,9 @@ export class HomeComponent implements OnInit {
       for (const cat of res) {
         if (cat.items !== undefined || []) {
           this.newItems = this.newItems.concat(cat.items);
+          this.hotOffer = this.newItems.filter(
+            (x) => x.promoStatus === "On Promotion"
+          );
         }
       }
       console.log("Categories>>>>", this.newItems);
@@ -52,4 +60,10 @@ export class HomeComponent implements OnInit {
       console.log("One Two, One Two", this.items);
     });
   }
+
+  // addNewItem(value, category) {
+  //   this.router.navigateByUrl(
+  //     "/product-details/" + this.id + "/" + value.itemNumber
+  //   );
+  // }
 }

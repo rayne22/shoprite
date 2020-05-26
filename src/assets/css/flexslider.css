@@ -146,13 +146,13 @@ html[xmlns] .slides {
   background: none;
   cursor: pointer;
   text-indent: -9999px;
-  border: 2px solid #84c639;
+  border: 2px solid #010c36;
   border-radius: 20px;
 }
 .flex-control-paging li a.flex-active {
-  background: #84c639;
+  background: #010c36;
   cursor: default;
-  border: 2px solid #84c639;
+  border: 2px solid #010c36;
 }
 .flex-control-thumbs {
   margin: 5px 0 0;

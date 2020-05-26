@@ -7,15 +7,15 @@
     <section class="slider">
       <div class="flexslider">
         <nz-carousel nzAutoPlay>
-          <div
-            nz-carousel-content
-            [ngStyle]="{ background: 'url(' + this.items.imgUrl + ')' }"
-            ng-style="{'background-repeat': 'no-repeat', 'background-size': 'cover'; }"
-            *ngFor="let index of array"
-          >
+          <div nz-carousel-content class="image" *ngFor="let index of newItems">
+            <img
+              [src]="index.imgUrl"
+              alt="..."
+              style="height: 400px; width: 100%;"
+            />
             <!-- <h3>{{ index }}</h3> -->
 
-            <h3 style="float: right; margin-right: 10px; color: azure;">
+            <!-- <h3 style="float: right; margin-right: 10px; color: azure;">
               Make your <span>food</span> with Spicy.
             </h3>
             <div class="more">
@@ -24,8 +24,8 @@
                 class="button--saqui button--round-l button--text-thick"
                 data-text="Shop now"
                 >Shop now</a
-              >
-            </div>
+              > -->
+            <!-- </div> -->
           </div>
         </nz-carousel>
         <!-- <ul class="slides">
@@ -120,7 +120,7 @@
       <div class="wthree_banner_bottom_left_grid">
         <img src="assets/images/6.jpg" alt=" " class="img-responsive" />
         <div class="wthree_banner_btm_pos1">
-          <h3>Save <span>Upto</span> $10</h3>
+          <h3>Save <span>Upto</span> ZMW 1000</h3>
         </div>
       </div>
     </div>
@@ -133,24 +133,36 @@
   <div class="container">
     <h3>Hot Offers</h3>
     <div class="agile_top_brands_grids">
-      <div class="col-md-3 top_brand_left">
+      <div
+        class="col-md-3 top_brand_left"
+        *ngFor="let onOffer of hotOffer | slice: hotOffer.length - 4"
+      >
         <div class="hover14 column">
           <div class="agile_top_brand_left_grid">
             <div class="tag">
-              <img src="assets/images/tag.png" alt=" " class="img-responsive" />
+              <img
+                src="assets/images/tag.png"
+                alt=" "
+                class="agile_top_brand_left_grid_pos img-responsive"
+              />
             </div>
             <div class="agile_top_brand_left_grid1">
               <figure>
                 <div class="snipcart-item block">
                   <div class="snipcart-thumb">
-                    <a href="single.html"
-                      ><img title=" " alt=" " src="assets/images/1.png"
+                    <a href="single.html">
+                      <!-- <img title=" " alt=" "
+                    />-->
+                      <img
+                        [src]="onOffer.imgUrl"
+                        alt=" "
+                        class="img-responsive"
                     /></a>
-                    <p>fortune sunflower oil</p>
-                    <h4>$7.99 <span>$10.00</span></h4>
+                    <p>{{ onOffer.itemName }}</p>
+                    <h4>ZMW {{ onOffer.price }}</h4>
                   </div>
                   <div class="snipcart-details top_brand_home_details">
-                    <form action="#" method="post">
+                    <!-- <form action="#" method="post">
                       <fieldset>
                         <input type="hidden" name="cmd" value="_cart" />
                         <input type="hidden" name="add" value="1" />
@@ -168,15 +180,15 @@
                         />
                         <input type="hidden" name="currency_code" value="USD" />
                         <input type="hidden" name="return" value=" " />
-                        <input type="hidden" name="cancel_return" value=" " />
-                        <input
+                        <input type="hidden" name="cancel_return" value=" " /> -->
+                    <!-- <input
                           type="submit"
                           name="submit"
                           value="Add to cart"
                           class="button"
-                        />
-                      </fieldset>
-                    </form>
+                        /> -->
+                    <!-- </fieldset>
+                    </form> -->
                   </div>
                 </div>
               </figure>
@@ -184,7 +196,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 top_brand_left">
+      <!-- <div class="col-md-3 top_brand_left">
         <div class="hover14 column">
           <div class="agile_top_brand_left_grid">
             <div class="agile_top_brand_left_grid1">
@@ -289,8 +301,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-3 top_brand_left">
+      </div> -->
+      <!-- <div class="col-md-3 top_brand_left">
         <div class="hover14 column">
           <div class="agile_top_brand_left_grid">
             <div class="agile_top_brand_left_grid_pos">
@@ -347,7 +359,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="clearfix"></div>
     </div>
   </div>
@@ -363,11 +375,13 @@
       >
         <div class="w3l_fresh_vegetables_grid2">
           <ul>
-            <li>
+            <li *ngFor="let item of listOfDisplayData">
               <i class="fa fa-check" aria-hidden="true"></i
-              ><a href="products.html">All Brands</a>
+              ><a [routerLink]="['/products/', item.categoryNumber]">{{
+                item.categoryName
+              }}</a>
             </li>
-            <li>
+            <!-- <li>
               <i class="fa fa-check" aria-hidden="true"></i
               ><a href="vegetables.html">Vegetables</a>
             </li>
@@ -402,7 +416,7 @@
             <li>
               <i class="fa fa-check" aria-hidden="true"></i
               ><a href="products.html">Dairy Products</a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
