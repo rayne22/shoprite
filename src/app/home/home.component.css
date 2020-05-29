@@ -16,3 +16,10 @@
   color: #fff;
   margin-bottom: 0;
 } */
+
+.cover {
+  object-fit: fill;
+  height: 500px;
+  width: 100%;
+  /*height: 300px;  optional, you can remove it, but in my case it was good */
+}

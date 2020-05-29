@@ -8,11 +8,7 @@
       <div class="flexslider">
         <nz-carousel nzAutoPlay>
           <div nz-carousel-content class="image" *ngFor="let index of newItems">
-            <img
-              [src]="index.imgUrl"
-              alt="..."
-              style="height: 400px; width: 100%;"
-            />
+            <img class="cover" [src]="index.imgUrl" alt="..." />
             <!-- <h3>{{ index }}</h3> -->
 
             <!-- <h3 style="float: right; margin-right: 10px; color: azure;">

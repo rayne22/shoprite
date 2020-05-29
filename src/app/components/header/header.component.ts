@@ -28,6 +28,12 @@ export class HeaderComponent implements OnInit {
   newQuantity: number;
   user: any;
   userData: any;
+  indexW: any;
+  ads = [
+    "Today special Offers !",
+    "Strictly from Shoprite",
+    "Customer Satisfaction Guaranteed",
+  ];
 
   constructor(
     private cartService: CartService,
@@ -35,7 +41,13 @@ export class HeaderComponent implements OnInit {
     private msg: NzMessageService,
     public authService: AuthService,
     private usersService: UsersService
-  ) {}
+  ) {
+    // this.indexW = setInterval(() => {
+    //   this.ads.;
+    // }, 5000);
+
+    console.log(this.ads);
+  }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("user"));
@@ -54,7 +66,9 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  edit(item) {}
+  edit(item) {
+    this.cartService.deleteItem(item);
+  }
 
   showModal(): void {
     this.isVisible = true;

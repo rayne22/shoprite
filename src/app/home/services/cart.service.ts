@@ -62,6 +62,20 @@ export class CartService {
     this.cartCollection.doc(cart.id).update(cart);
   }
 
+  deleteItem(cart: CartModel) {
+    console.log("DELETE LOG>>>>>", cart);
+
+    // this.cartCollection
+    //   .doc(cart.id)
+    //   .update(cart)
+    //   .then((res) => {
+    //     this.msg.success("Updated Successfully");
+    //   })
+    //   .catch((err) => {
+    //     this.msg.warning("failed");
+    //   });
+  }
+
   countGenerator(numb) {
     if (numb <= 9999) {
       numb = ("0000" + numb).slice(-5);
