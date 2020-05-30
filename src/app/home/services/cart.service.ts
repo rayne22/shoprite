@@ -65,15 +65,15 @@ export class CartService {
   deleteItem(cart: CartModel) {
     console.log("DELETE LOG>>>>>", cart);
 
-    // this.cartCollection
-    //   .doc(cart.id)
-    //   .update(cart)
-    //   .then((res) => {
-    //     this.msg.success("Updated Successfully");
-    //   })
-    //   .catch((err) => {
-    //     this.msg.warning("failed");
-    //   });
+    this.cartCollection
+      .doc(cart.id)
+      .delete()
+      .then((res) => {
+        this.msg.success("Removed Successfully");
+      })
+      .catch((err) => {
+        this.msg.warning("failed");
+      });
   }
 
   countGenerator(numb) {

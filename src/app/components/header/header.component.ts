@@ -8,6 +8,7 @@ import { OrdersService } from "src/app/home/services/orders.service";
 import { AuthService } from "src/app/home/services/auth.service";
 import { UsersService } from "src/app/home/services/users.service";
 import { UserModel } from "src/app/home/models/user.model";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-header",
@@ -35,12 +36,16 @@ export class HeaderComponent implements OnInit {
     "Customer Satisfaction Guaranteed",
   ];
 
+  selectedValue = null;
+
   constructor(
     private cartService: CartService,
     private orderService: OrdersService,
     private msg: NzMessageService,
     public authService: AuthService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private route: ActivatedRoute,
+    private readonly router: Router
   ) {
     // this.indexW = setInterval(() => {
     //   this.ads.;
@@ -138,5 +143,8 @@ export class HeaderComponent implements OnInit {
       });
     console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
     this.total = sum;
+  }
+  searchItem() {
+    this.router.navigateByUrl("view-item");
   }
 }

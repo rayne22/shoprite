@@ -31,6 +31,7 @@ import { SignUpComponent } from "./components/sign-up/sign-up.component";
 import { VerifyEmailComponent } from "./components/verify-email/verify-email.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { AuthService } from "./home/services/auth.service";
+import { AllItemsComponent } from './components/all-items/all-items.component';
 
 registerLocaleData(en);
 
@@ -59,6 +60,7 @@ const firebaseConfig = {
     SignUpComponent,
     VerifyEmailComponent,
     ForgotPasswordComponent,
+    AllItemsComponent,
   ],
   imports: [
     BrowserModule,
