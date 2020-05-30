@@ -31,7 +31,8 @@ import { SignUpComponent } from "./components/sign-up/sign-up.component";
 import { VerifyEmailComponent } from "./components/verify-email/verify-email.component";
 import { ForgotPasswordComponent } from "./components/forgot-password/forgot-password.component";
 import { AuthService } from "./home/services/auth.service";
-import { AllItemsComponent } from './components/all-items/all-items.component';
+import { AllItemsComponent } from "./components/all-items/all-items.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 registerLocaleData(en);
 
@@ -72,6 +73,7 @@ const firebaseConfig = {
     HttpClientModule,
     BrowserAnimationsModule,
     NgZorroAntdModule,
+    NgbModule,
   ],
   providers: [
     CategoriesService,
@@ -80,6 +82,6 @@ const firebaseConfig = {
     OrdersService,
     AuthService,
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, HomeComponent],
 })
 export class AppModule {}

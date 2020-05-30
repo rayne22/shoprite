@@ -6,24 +6,29 @@
   <div class="w3l_banner_nav_right">
     <section class="slider">
       <div class="flexslider">
-        <nz-carousel nzAutoPlay>
-          <div nz-carousel-content class="image" *ngFor="let index of newItems">
-            <img class="cover" [src]="index.imgUrl" alt="..." />
-            <!-- <h3>{{ index }}</h3> -->
+        <ngb-carousel>
+          <ng-template ngbSlide *ngFor="let image of newItems">
+            <div
+              class="w3l_slide"
+              [style.background]="'url(' + image.imgUrl + ')'"
+            >
+              <h3>Make your <span>food</span> with Spicy.</h3>
+              <div class="more">
+                <a
+                  href="products.html"
+                  class="button--saqui button--round-l button--text-thick"
+                  data-text="Shop now"
+                  >Shop now</a
+                >
+              </div>
+            </div>
+            <!-- <div class="carousel-caption">
+              <h3>First slide label</h3>
+              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            </div> -->
+          </ng-template>
+        </ngb-carousel>
 
-            <!-- <h3 style="float: right; margin-right: 10px; color: azure;">
-              Make your <span>food</span> with Spicy.
-            </h3>
-            <div class="more">
-              <a
-                href="products.html"
-                class="button--saqui button--round-l button--text-thick"
-                data-text="Shop now"
-                >Shop now</a
-              > -->
-            <!-- </div> -->
-          </div>
-        </nz-carousel>
         <!-- <ul class="slides">
           <li>
             <div class="w3l_banner_nav_right_banner">
@@ -52,7 +57,7 @@
             </div>
           </li>
           <li>
-            <div class="w3l_banner_nav_right_banner2">
+            <div class="w3l_slide">
               <h3>upto <i>50%</i> off.</h3>
               <div class="more">
                 <a
@@ -70,13 +75,13 @@
     <!-- flexSlider -->
     <!-- <link
       rel="stylesheet"
-      href="assets/css/flexslider.css"
+      href="../../assets/css/flexslider.css"
       type="text/css"
       media="screen"
       property=""
     /> -->
 
-    <script defer src="assests/js/jquery.flexslider.js"></script>
+    <script defer src="js/jquery.flexslider.js"></script>
     <script type="text/javascript">
       $(window).load(function () {
         $(".flexslider").flexslider({
