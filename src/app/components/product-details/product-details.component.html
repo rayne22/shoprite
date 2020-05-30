@@ -74,6 +74,7 @@
     <div
       *ngFor="let catItem of category.items"
       class="col-md-3 w3ls_w3l_banner_left"
+      style="height: 600px;"
     >
       <div class="hover14 column">
         <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
@@ -90,7 +91,11 @@
                       category.categoryNumber,
                       catItem.itemNumber
                     ]"
-                    ><img [src]="item.imgUrl" alt=" " class="img-responsive"
+                    ><img
+                      [src]="catItem.imgUrl"
+                      alt=" "
+                      class="img-responsive"
+                      style="height: 350px;"
                   /></a>
                   <p>{{ catItem.itemName }}</p>
                   <h4>ZMW {{ catItem.price }}</h4>
