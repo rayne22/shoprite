@@ -6,13 +6,15 @@
   <div class="w3l_banner_nav_right">
     <section class="slider">
       <div class="flexslider">
-        <ngb-carousel>
-          <ng-template ngbSlide *ngFor="let image of newItems">
-            <div
-              class="w3l_slide"
-              [style.background]="'url(' + image.imgUrl + ')'"
-            >
-              <h3>Make your <span>food</span> with Spicy.</h3>
+        <nz-carousel nzAutoPlay>
+          <div nz-carousel-content class="w3l_slide"></div>
+          <div nz-carousel-content class="w3l_slide1"></div>
+          <div nz-carousel-content class="w3l_slide2"></div>
+        </nz-carousel>
+        <!-- <ngb-carousel>
+          <ng-template ngbSlide>
+            <div class="w3l_slide">
+              <h3 style="color: #fa1818;">Unbeatable Prices.</h3>
               <div class="more">
                 <a
                   href="products.html"
@@ -22,12 +24,34 @@
                 >
               </div>
             </div>
-            <!-- <div class="carousel-caption">
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </div> -->
           </ng-template>
-        </ngb-carousel>
+          <ng-template ngbSlide>
+            <div class="w3l_slide1">
+              <h3 style="color: #fa1818;">Unbeatable Prices.</h3>
+              <div class="more">
+                <a
+                  href="products.html"
+                  class="button--saqui button--round-l button--text-thick"
+                  data-text="Shop now"
+                  >Shop now</a
+                >
+              </div>
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <div class="w3l_slide2">
+              <h3 style="color: #fa1818;">Unbeatable Prices.</h3>
+              <div class="more">
+                <a
+                  href="products.html"
+                  class="button--saqui button--round-l button--text-thick"
+                  data-text="Shop now"
+                  >Shop now</a
+                >
+              </div>
+            </div>
+          </ng-template>
+        </ngb-carousel> -->
 
         <!-- <ul class="slides">
           <li>
@@ -103,26 +127,41 @@
   <div class="wthree_banner_bottom_left_grid_sub1">
     <div class="col-md-4 wthree_banner_bottom_left">
       <div class="wthree_banner_bottom_left_grid">
-        <img src="assets/images/4.jpg" alt=" " class="img-responsive" />
-        <div class="wthree_banner_bottom_left_grid_pos">
+        <img
+          src="assets/img/shb.jpeg"
+          alt=" "
+          class="img-responsive"
+          style="height: 350px;"
+        />
+        <!-- <div class="wthree_banner_bottom_left_grid_pos">
           <h4>Discount Offer <span>25%</span></h4>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col-md-4 wthree_banner_bottom_left">
       <div class="wthree_banner_bottom_left_grid">
-        <img src="assets/images/5.jpg" alt=" " class="img-responsive" />
-        <div class="wthree_banner_btm_pos">
+        <img
+          src="assets/img/shoprite.png"
+          alt=" "
+          class="img-responsive"
+          style="height: 350px;"
+        />
+        <!-- <div class="wthree_banner_btm_pos">
           <h3>introducing <span>best store</span> for <i>groceries</i></h3>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col-md-4 wthree_banner_bottom_left">
       <div class="wthree_banner_bottom_left_grid">
-        <img src="assets/images/6.jpg" alt=" " class="img-responsive" />
-        <div class="wthree_banner_btm_pos1">
+        <img
+          src="assets/img/shopf.png"
+          alt=" "
+          class="img-responsive"
+          style="height: 350px;"
+        />
+        <!-- <div class="wthree_banner_btm_pos1">
           <h3>Save <span>Upto</span> ZMW 1000</h3>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="clearfix"></div>
@@ -444,7 +483,7 @@
             </div>
           </div>
           <div class="w3l_fresh_vegetables_grid1_bottom">
-            <img src="assets/images/10.jpg" alt=" " class="img-responsive" />
+            <img src="assets/img/shc.jpeg" alt=" " class="img-responsive" />
             <div class="w3l_fresh_vegetables_grid1_bottom_pos">
               <h5>Special Offers</h5>
             </div>
@@ -462,8 +501,7 @@
         <div class="agileinfo_move_text">
           <div class="agileinfo_marquee">
             <h4>
-              get <span class="blink_me">25% off</span> on first order and also
-              get gift voucher
+              get <span class="blink_me">Lowest Prices</span> you can trust
             </h4>
           </div>
           <div class="agileinfo_breaking_news">
