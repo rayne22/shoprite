@@ -115,7 +115,30 @@
                       <p>{{ item.itemName }}</p>
                       <h4>ZMW {{ item.price }}</h4>
                     </div>
-                    <div class="snipcart-details">
+                    <div *ngIf="!authService.userData" class="snipcart-details">
+                      <form>
+                        <input
+                          type="button"
+                          name="submit"
+                          value="Add to Cart"
+                          class="button"
+                          (click)="signIn()"
+                        />
+                      </form>
+                    </div>
+
+                    <div *ngIf="authService.userData" class="snipcart-details">
+                      <form>
+                        <input
+                          type="button"
+                          name="submit"
+                          value="Add to Cart"
+                          class="button"
+                          (click)="addItem(item)"
+                        />
+                      </form>
+                    </div>
+                    <!-- <div class="snipcart-details">
                       <form>
                         <input
                           type="button"
@@ -125,7 +148,7 @@
                           (click)="addNewItem(item, category.categoryNumber)"
                         />
                       </form>
-                    </div>
+                    </div> -->
                   </div>
                 </figure>
               </div>
@@ -152,6 +175,13 @@
     </div>
   </div>
 </div>
+
+<nz-modal [(nzVisible)]="isSignInVisible" nzTitle="The first Modal">
+  <p>Content one</p>
+  <p>Content two</p>
+  <p>Content three</p>
+  <p>Content three</p>
+</nz-modal>
 
 <!-- newsletter -->
 <!-- <div class="newsletter">
