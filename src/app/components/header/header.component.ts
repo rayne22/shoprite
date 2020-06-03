@@ -9,6 +9,7 @@ import { AuthService } from "src/app/home/services/auth.service";
 import { UsersService } from "src/app/home/services/users.service";
 import { UserModel } from "src/app/home/models/user.model";
 import { ActivatedRoute, Router } from "@angular/router";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-header",
@@ -16,8 +17,10 @@ import { ActivatedRoute, Router } from "@angular/router";
   styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
+  addressForm: FormGroup;
   isVisible = false;
   searchString: number;
+  isAddressConfirmationVisible = false;
 
   listOfData: CartModel[];
   listOfDisplayData: CartModel[];
@@ -37,6 +40,7 @@ export class HeaderComponent implements OnInit {
   ];
 
   selectedValue = null;
+  selectedPayment = "";
 
   constructor(
     private cartService: CartService,
@@ -45,8 +49,15 @@ export class HeaderComponent implements OnInit {
     public authService: AuthService,
     private usersService: UsersService,
     private route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private fb: FormBuilder
   ) {
+    this.addressForm = fb.group({
+      clientName: ["", Validators.required],
+      email: ["", Validators.required],
+      clientPhone: ["", Validators.required],
+      clientAddress: ["", Validators.required],
+    });
     // this.indexW = setInterval(() => {
     //   this.ads.;
     // }, 5000);
@@ -64,11 +75,28 @@ export class HeaderComponent implements OnInit {
         this.listOfData = res.filter((x) => x.clientId === this.userData.id);
         this.listOfDisplayData = this.listOfData;
         console.log("Orders>>>>", this.listOfDisplayData);
-        for (const s of this.listOfDisplayData) {
-          this.total = this.total + s.amount;
-        }
+        // for (const s of this.listOfDisplayData) {
+        //   this.total = this.total + s.amount;
+        // }
+
+        // for (const l of this.listOfDisplayData) {
+        //   l.amount = l.amount * l.quantity;
+        // }
+
+        const sum: number = this.listOfDisplayData
+          .map((a) => a.amount * a.quantity)
+          .reduce((a, b) => {
+            return a + b;
+          });
+        console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
+        this.total = sum;
       });
     });
+
+    this.addressForm.get("clientName");
+    this.addressForm.get("email");
+    this.addressForm.get("clientPhone");
+    this.addressForm.get("clientAddress");
   }
 
   edit(item) {
@@ -92,7 +120,7 @@ export class HeaderComponent implements OnInit {
 
     this.total = sum;
 
-    let quantitySum: number = 0;
+    let quantitySum = 0;
     this.listOfData.forEach((a) => (quantitySum += Number(a.quantity)));
 
     this.newQuantity = quantitySum;
@@ -126,7 +154,14 @@ export class HeaderComponent implements OnInit {
 
     // this.quant.amount = this.quant.amount * res;
 
-    this.cartService.updateCartQuantity(value);
+    // this.cartService.updateCartQuantity(value);
+    const sum: number = this.listOfDisplayData
+      .map((a) => a.amount * a.quantity)
+      .reduce((a, b) => {
+        return a + b;
+      });
+    console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
+    this.total = sum;
 
     console.log("TTTTTTT>>>>", value);
   }
@@ -146,5 +181,14 @@ export class HeaderComponent implements OnInit {
   }
   searchItem() {
     this.router.navigateByUrl("view-item");
+  }
+
+  handleAddress() {
+    this.isVisible = false;
+    this.isAddressConfirmationVisible = true;
+  }
+
+  handleAddressCancel() {
+    this.isAddressConfirmationVisible = false;
   }
 }

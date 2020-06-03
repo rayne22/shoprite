@@ -172,21 +172,425 @@
   </nz-card>
   <ng-template #modalFooter>
     <span style="float: left;"><strong>Total:</strong> {{ total }} </span>
-    <button
+    <!-- <button
       nz-button
       nzType="primary"
       style="float: left; margin-left: 50px;"
       (click)="handleCheck()"
     >
       Check Total
-    </button>
+    </button> -->
     <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
     <button
       nz-button
       style="background-color: red; color: #fff;"
-      (click)="handleOk()"
+      (click)="handleAddress()"
     >
       Checkout
     </button>
   </ng-template>
 </nz-modal>
+
+<nz-drawer
+  [(nzVisible)]="isAddressConfirmationVisible"
+  nzTitle="Deliver"
+  [nzWidth]="1000"
+  (nzOnClose)="handleAddressCancel()"
+  [nzMaskClosable]="false"
+  [nzPlacement]="'left'"
+  (nzOnOk)="handleOk()"
+>
+  <div style="padding: 30px;">
+    <div nz-row [nzGutter]="8">
+      <div nz-col [nzSpan]="12">
+        <nz-card nzTitle="Confirm Delivery Address">
+          <form nz-form [formGroup]="addressForm">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                nzValidatingTip="Validating..."
+                [nzErrorTip]="clientNameErrorTpl"
+              >
+                <input nz-input formControlName="clientName" />
+                <ng-template #clientNameErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your client name!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('duplicated')">
+                    The client name is redundant!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                [nzErrorTip]="emailErrorTpl"
+              >
+                <input
+                  nz-input
+                  formControlName="email"
+                  placeholder="email"
+                  type="email"
+                />
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('email')">
+                    The input is not valid E-mail!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your E-mail!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired
+                >Phone Number</nz-form-label
+              >
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                nzValidatingTip="Validating..."
+                [nzErrorTip]="clientPhoneErrorTpl"
+              >
+                <input nz-input formControlName="clientPhone" />
+                <ng-template #clientPhoneErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your client phone number!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('duplicated')">
+                    The client number is redundant!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired
+                >Client Address</nz-form-label
+              >
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                nzValidatingTip="Validating..."
+                [nzErrorTip]="addressErrorTpl"
+              >
+                <input nz-input formControlName="clientAddress" />
+                <ng-template #addressErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your client address!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('duplicated')">
+                    The client address is redundant!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <!-- <nz-form-item>
+        <nz-form-control [nzOffset]="7" [nzSpan]="12">
+          <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+          <button nz-button (click)="resetForm($event)">Reset</button>
+        </nz-form-control>
+      </nz-form-item>-->
+          </form>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="12">
+        <nz-card nzTitle="Confirm Delivery Address">
+          <nz-select
+            nzPlaceHolder="Select Payment Method"
+            [(ngModel)]="selectedPayment"
+          >
+            <nz-option nzValue="Visa" nzLabel="Visa"></nz-option>
+          </nz-select>
+
+          <div *ngIf="selectedPayment === 'Visa'" class="container">
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <h3 class="text-center">Payment Details</h3>
+                    <img
+                      alt="Credit Card Logos"
+                      title="Credit Card Logos"
+                      src="http://www.credit-card-logos.com/images/visa_credit-card-logos/visa_mastercard_1.gif"
+                    />
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <form role="form">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>CARD NUMBER</label>
+                          <div class="input-group">
+                            <input
+                              type="tel"
+                              class="form-control"
+                              placeholder="Valid Card Number"
+                            />
+                            <span class="input-group-addon"
+                              ><span class="fa fa-credit-card"></span
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-7 col-md-7">
+                        <div class="form-group">
+                          <label
+                            ><span class="hidden-xs">EXPIRATION</span
+                            ><span class="visible-xs-inline">EXP</span>
+                            DATE</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control"
+                            placeholder="MM / YY"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xs-5 col-md-5 pull-right">
+                        <div class="form-group">
+                          <label>CV CODE</label>
+                          <input
+                            type="tel"
+                            class="form-control"
+                            placeholder="CVC"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>CARD OWNER</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Card Owner Names"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <button class="btn btn-warning btn-lg btn-block">
+                        Process payment
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+    </div>
+  </div>
+  <!-- <nz-card style="width: 950px;"> -->
+  <!-- <nz-row [nzGutter]="8">
+      <nz-col nzSpan="12">
+        <nz-card style="width: 500px;" nzTitle="Confirm Delivery Address">
+          <form nz-form [formGroup]="addressForm">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>Client Name</nz-form-label>
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                nzValidatingTip="Validating..."
+                [nzErrorTip]="clientNameErrorTpl"
+              >
+                <input nz-input formControlName="clientName" />
+                <ng-template #clientNameErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your client name!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('duplicated')">
+                    The client name is redundant!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                [nzErrorTip]="emailErrorTpl"
+              >
+                <input
+                  nz-input
+                  formControlName="email"
+                  placeholder="email"
+                  type="email"
+                />
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('email')">
+                    The input is not valid E-mail!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your E-mail!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired
+                >Client Phone Number</nz-form-label
+              >
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                nzValidatingTip="Validating..."
+                [nzErrorTip]="clientPhoneErrorTpl"
+              >
+                <input nz-input formControlName="clientPhone" />
+                <ng-template #clientPhoneErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your client phone number!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('duplicated')">
+                    The client number is redundant!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired
+                >Client Address</nz-form-label
+              >
+              <nz-form-control
+                [nzSpan]="12"
+                nzHasFeedback
+                nzValidatingTip="Validating..."
+                [nzErrorTip]="addressErrorTpl"
+              >
+                <input nz-input formControlName="clientAddress" />
+                <ng-template #addressErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please input your client address!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('duplicated')">
+                    The client address is redundant!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            !-- <nz-form-item>
+        <nz-form-control [nzOffset]="7" [nzSpan]="12">
+          <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+          <button nz-button (click)="resetForm($event)">Reset</button>
+        </nz-form-control>
+      </nz-form-item>--
+          </form>
+        </nz-card>
+      </nz-col>
+      <nz-col nzSpan="12">
+        <nz-card style="width: 400px;" nzTitle="Confirm Delivery Address">
+          <nz-select
+            nzPlaceHolder="Select Payment Method"
+            [(ngModel)]="selectedPayment"
+          >
+            <nz-option nzValue="Visa" nzLabel="Visa"></nz-option>
+          </nz-select>
+
+          <div *ngIf="selectedPayment === 'Visa'" class="container">
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <h3 class="text-center">Payment Details</h3>
+                    <img
+                      class="img-responsive cc-img"
+                      src="http://www.prepbootstrap.com/Content/images/shared/misc/creditcardicons.png"
+                    />
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <form role="form">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>CARD NUMBER</label>
+                          <div class="input-group">
+                            <input
+                              type="tel"
+                              class="form-control"
+                              placeholder="Valid Card Number"
+                            />
+                            <span class="input-group-addon"
+                              ><span class="fa fa-credit-card"></span
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-7 col-md-7">
+                        <div class="form-group">
+                          <label
+                            ><span class="hidden-xs">EXPIRATION</span
+                            ><span class="visible-xs-inline">EXP</span>
+                            DATE</label
+                          >
+                          <input
+                            type="tel"
+                            class="form-control"
+                            placeholder="MM / YY"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xs-5 col-md-5 pull-right">
+                        <div class="form-group">
+                          <label>CV CODE</label>
+                          <input
+                            type="tel"
+                            class="form-control"
+                            placeholder="CVC"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label>CARD OWNER</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Card Owner Names"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <button class="btn btn-warning btn-lg btn-block">
+                        Process payment
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nz-card>
+      </nz-col>
+    </nz-row> -->
+  <!-- </nz-card> -->
+</nz-drawer>

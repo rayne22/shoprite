@@ -16,7 +16,7 @@ import { ProductsComponent } from "./components/products/products.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { ProductDetailsComponent } from "./components/product-details/product-details.component";
 import { CartComponent } from "./components/cart/cart.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NZ_I18N } from "ng-zorro-antd/i18n";
@@ -74,6 +74,8 @@ const firebaseConfig = {
     BrowserAnimationsModule,
     NgZorroAntdModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     CategoriesService,

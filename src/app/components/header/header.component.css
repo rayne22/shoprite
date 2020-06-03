@@ -1,3 +1,11 @@
 nz-input {
   width: 40px;
 }
+
+.cc-img {
+  margin: 0 auto;
+}
+
+nz-select {
+  width: 200px;
+}
