@@ -15,7 +15,7 @@
     />
     <input type="submit" value=" " (click)="searchItem()" />
   </div>
-  <div class="product_list_header">
+  <div class="product_list_header" style="background: #010c36;">
     <!-- <form action="#" method="post" class="last">
       <fieldset>
         <input type="hidden" name="cmd" value="_cart" />
@@ -26,11 +26,12 @@
       value="View your cart"
       (click)="showModal()"
       class="button"
-      style="background: #010c36;"
     />
 
     <!-- </fieldset> -->
-    <!-- <span class="badge badge-light">4</span> -->
+    <span class="badge badge-light" style="color: #fa1818;">{{
+      numberInCart
+    }}</span>
     <!-- </form> -->
   </div>
   <div class="w3l_header_right">
@@ -130,7 +131,7 @@
   nzTitle="Cart"
   (nzOnCancel)="handleCancel()"
   [nzFooter]="modalFooter"
-  [nzWidth]="800"
+  [nzWidth]="'70%'"
 >
   <nz-card style="width: 100%;">
     <!-- <nz-descriptions nzBordered nzLayout="vertical">
@@ -171,7 +172,10 @@
     </nz-list>
   </nz-card>
   <ng-template #modalFooter>
-    <span style="float: left;"><strong>Total:</strong> {{ total }} </span>
+    <span style="float: left;"><strong>Total:</strong> ZMW {{ total }} </span>
+    <span style="float: left; margin-left: 50px;"
+      ><strong>Delivery Fee:</strong> ZMW 40
+    </span>
     <!-- <button
       nz-button
       nzType="primary"
@@ -325,13 +329,14 @@
                   </div>
                 </div>
                 <div class="panel-body">
-                  <form role="form">
+                  <form role="form" [formGroup]="cardForm">
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="form-group">
                           <label>CARD NUMBER</label>
                           <div class="input-group">
                             <input
+                              formControlName="cardNumber"
                               type="tel"
                               class="form-control"
                               placeholder="Valid Card Number"
@@ -352,6 +357,7 @@
                             DATE</label
                           >
                           <input
+                            formControlName="date"
                             type="tel"
                             class="form-control"
                             placeholder="MM / YY"
@@ -362,6 +368,7 @@
                         <div class="form-group">
                           <label>CV CODE</label>
                           <input
+                            formControlName="cvc"
                             type="tel"
                             class="form-control"
                             placeholder="CVC"
@@ -374,6 +381,7 @@
                         <div class="form-group">
                           <label>CARD OWNER</label>
                           <input
+                            formControlName="cardName"
                             type="text"
                             class="form-control"
                             placeholder="Card Owner Names"
@@ -386,7 +394,10 @@
                 <div class="panel-footer">
                   <div class="row">
                     <div class="col-xs-12">
-                      <button class="btn btn-warning btn-lg btn-block">
+                      <button
+                        class="btn btn-warning btn-lg btn-block"
+                        (click)="handleCardInfo()"
+                      >
                         Process payment
                       </button>
                     </div>
