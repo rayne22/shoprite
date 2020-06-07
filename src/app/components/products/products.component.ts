@@ -87,6 +87,9 @@ export class ProductsComponent implements OnInit {
       };
 
       this.cartService.addCart(this.cartObj);
+      this.router.routeReuseStrategy.shouldReuseRoute = () => {
+        return false;
+      };
     } else {
       for (const item of this.cartList) {
         console.log("Value Single>>>>", item);
@@ -112,6 +115,9 @@ export class ProductsComponent implements OnInit {
           };
 
           this.cartService.addCart(this.cartObj);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => {
+            return false;
+          };
         }
         break;
       }

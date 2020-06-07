@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
 
   selectedValue = null;
   selectedPayment = "";
+  isOkLoading = false;
 
   constructor(
     private cartService: CartService,
@@ -88,7 +89,6 @@ export class HeaderComponent implements OnInit {
     this.usersService.getUsers().subscribe((users) => {
       this.userData = users.filter((x) => x.email === this.user.email)[0];
       this.cardForm.get("cardName").setValue(this.userData.clientName);
-
       this.cartService.getOrders().subscribe((res) => {
         this.listOfData = res.filter(
           (x) =>
@@ -162,6 +162,8 @@ export class HeaderComponent implements OnInit {
       cart.checkoutStatus = "Checked Out";
       this.cartService.updateCart(cart);
     }
+
+    this.total = 0;
     this.isVisible = false;
     this.isAddressConfirmationVisible = false;
   }
