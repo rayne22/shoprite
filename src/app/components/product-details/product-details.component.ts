@@ -29,6 +29,7 @@ export class ProductDetailsComponent implements OnInit {
   exitsts = true;
   user: any;
   userData: UserModel;
+  isOkLoading = false;
 
   constructor(
     private readonly router: Router,
@@ -85,6 +86,13 @@ export class ProductDetailsComponent implements OnInit {
       };
 
       this.cartService.addCart(this.cartObj);
+      this.isOkLoading = true;
+      setTimeout(() => {
+        this.isOkLoading = false;
+      }, 3000);
+      this.router.routeReuseStrategy.shouldReuseRoute = () => {
+        return false;
+      };
     } else {
       for (const item of this.cartList) {
         console.log("Value Single>>>>", item);
@@ -110,6 +118,13 @@ export class ProductDetailsComponent implements OnInit {
           };
 
           this.cartService.addCart(this.cartObj);
+          this.isOkLoading = true;
+          setTimeout(() => {
+            this.isOkLoading = false;
+          }, 3000);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => {
+            return false;
+          };
         }
         break;
       }

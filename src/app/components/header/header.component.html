@@ -176,7 +176,9 @@
     </nz-list>
   </nz-card>
   <ng-template #modalFooter>
-    <span style="float: left;"><strong>Total:</strong> ZMW {{ total }} </span>
+    <span style="float: left;"
+      ><strong>Total:</strong> ZMW {{ total | number: "1.2-2" }}
+    </span>
     <span style="float: left; margin-left: 50px;"
       ><strong>Delivery Fee:</strong> ZMW 40
     </span>
