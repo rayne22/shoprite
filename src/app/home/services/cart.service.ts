@@ -51,7 +51,7 @@ export class CartService {
       .doc(cart.id)
       .update(cart)
       .then((res) => {
-        this.msg.success("Updated Successfully");
+        // this.msg.success("Updated Successfully");
       })
       .catch((err) => {
         this.msg.warning("failed");

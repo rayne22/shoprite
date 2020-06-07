@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   searchString: number;
   isAddressConfirmationVisible = false;
   numberInCart: number;
+  disabled = true;
 
   listOfData: CartModel[];
   listOfDisplayData: CartModel[];
@@ -89,7 +90,11 @@ export class HeaderComponent implements OnInit {
       this.cardForm.get("cardName").setValue(this.userData.clientName);
 
       this.cartService.getOrders().subscribe((res) => {
-        this.listOfData = res.filter((x) => x.clientId === this.userData.id);
+        this.listOfData = res.filter(
+          (x) =>
+            x.clientId === this.userData.id &&
+            x.checkoutStatus === "Pending Checkout"
+        );
         this.listOfDisplayData = this.listOfData;
         this.numberInCart = this.listOfDisplayData.length;
         console.log("Orders>>>>", this.listOfDisplayData);
@@ -145,15 +150,20 @@ export class HeaderComponent implements OnInit {
       quantity: quantitySum,
       amount: this.total,
       deliveryStatus: "Not Delivered",
-      clientName: this.userData.clientName,
+      clientName: this.addressForm.controls.clientName.value,
       clientId: this.userData.id,
-      clientPhone: this.userData.clientPhone,
-      clientAddress: this.userData.clientAddress,
+      clientPhone: this.addressForm.controls.clientPhone.value,
+      clientAddress: this.addressForm.controls.clientAddress.value,
       cart: this.listOfDisplayData,
     };
 
     this.orderService.addOrder(this.order);
+    for (const cart of this.listOfDisplayData) {
+      cart.checkoutStatus = "Checked Out";
+      this.cartService.updateCart(cart);
+    }
     this.isVisible = false;
+    this.isAddressConfirmationVisible = false;
   }
 
   handleCancel(): void {
@@ -211,7 +221,7 @@ export class HeaderComponent implements OnInit {
 
   handleCardInfo() {
     const cardInfo = {
-      PBFPubKey: "FLWPUBK-17d0d3f5788c77f9c19f474350af5175-X",
+      PBFPubKey: "FLWPUBK_TEST-0ef81a81223825fa4d4d3c7188f027fc-X",
       cardno: this.cardForm.controls.cardNumber.value,
       cvv: this.cardForm.controls.cvc.value,
       expirymonth: "06",
@@ -219,31 +229,28 @@ export class HeaderComponent implements OnInit {
       currency: "ZMW",
       country: "ZM",
       amount: 2,
-      email: this.addressForm.controls.email.value,
-      phonenumber: this.addressForm.controls.clientPhone.value,
-      firstname: "Changa",
-      lastname: "Lesa",
-      IP: "",
+      customer_email: this.addressForm.controls.email.value,
       txRef: "MCDL-" + Date.now(), // your unique merchant reference
-      meta: [{ metaname: "flightID", metavalue: "123949494DC" }],
       redirect_url: "https://rave-webhook.herokuapp.com/receivepayment",
-      device_fingerprint: "69e6b7f0b72037aa8428b70fbe03986c",
     };
 
-    const chargeDataGlobal = cardInfo;
+    // const chargeDataGlobal = cardInfo;
 
-    console.log("CARD DATA>>>>", chargeDataGlobal);
-    const newdata = {
-      PBFPubKey: chargeDataGlobal.PBFPubKey,
-      client: cryptico.encrypt(
-        JSON.stringify(chargeDataGlobal),
-        this.getPublicKey()
-      ).cipher,
-      alg: "3DES-24",
-    };
+    // console.log("CARD DATA>>>>", chargeDataGlobal);
+    // const newdata = {
+    //   PBFPubKey: chargeDataGlobal.PBFPubKey,
+    //   client: cryptico.encrypt(
+    //     JSON.stringify(chargeDataGlobal),
+    //     this.getPublicKey()
+    //   ).cipher,
+    //   alg: "3DES-24",
+    // };
 
     this.http
-      .post("https://api.ravepay.co/flwv3-pug/getpaidx/api/charge", newdata)
+      .post(
+        "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay",
+        cardInfo
+      )
       .subscribe(
         (res) => {
           console.log(res);
@@ -295,5 +302,26 @@ export class HeaderComponent implements OnInit {
     const Bits = 1024;
 
     return cryptico.generateRSAKey(PassPhrase, Bits);
+  }
+
+  payWithRave() {}
+
+  confirmPayment(response: object): void {
+    console.log(response);
+  }
+
+  cancelledPayment(): void {
+    console.log("close");
+  }
+
+  generateReference(): string {
+    let text = "";
+    const possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let i = 0; i < 10; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
   }
 }

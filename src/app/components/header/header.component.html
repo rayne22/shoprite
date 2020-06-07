@@ -305,12 +305,16 @@
         </nz-card>
       </div>
       <div nz-col [nzSpan]="12">
-        <nz-card nzTitle="Confirm Delivery Address">
+        <nz-card nzTitle="Confirm Payment Method">
           <nz-select
             nzPlaceHolder="Select Payment Method"
             [(ngModel)]="selectedPayment"
           >
-            <nz-option nzValue="Visa" nzLabel="Visa"></nz-option>
+            <nz-option
+              nzValue="Visa"
+              nzLabel="Visa"
+              [nzDisabled]="disabled"
+            ></nz-option>
             <nz-option nzValue="Cash" nzLabel="Cash"></nz-option>
             <nz-option nzValue="MoMo" nzLabel="MoMo"></nz-option>
           </nz-select>
@@ -455,7 +459,9 @@
 
               <nz-form-item>
                 <nz-form-control [nzOffset]="7" [nzSpan]="12">
-                  <button nz-button nzType="primary">Submit</button>
+                  <button nz-button nzType="primary" (click)="handleOk()">
+                    Submit
+                  </button>
                   <button nz-button>Reset</button>
                 </nz-form-control>
               </nz-form-item>
@@ -510,7 +516,9 @@
 
               <nz-form-item>
                 <nz-form-control [nzOffset]="7" [nzSpan]="12">
-                  <button nz-button nzType="primary">Submit</button>
+                  <button nz-button nzType="primary" (click)="handleOk()">
+                    Submit
+                  </button>
                   <button nz-button>Reset</button>
                 </nz-form-control>
               </nz-form-item>

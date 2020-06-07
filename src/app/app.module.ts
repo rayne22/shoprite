@@ -33,7 +33,6 @@ import { ForgotPasswordComponent } from "./components/forgot-password/forgot-pas
 import { AuthService } from "./home/services/auth.service";
 import { AllItemsComponent } from "./components/all-items/all-items.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AngularRaveModule } from "angular-rave";
 
 registerLocaleData(en);
 
@@ -77,6 +76,7 @@ const firebaseConfig = {
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    // RavepaymentModule,
   ],
   providers: [
     CategoriesService,
