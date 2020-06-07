@@ -30,6 +30,7 @@ export class ProductsComponent implements OnInit {
   exitsts = true;
   user: any;
   userData: UserModel;
+  isOkLoading = false;
   isSignInVisible = false;
   constructor(
     private readonly router: Router,
@@ -87,6 +88,10 @@ export class ProductsComponent implements OnInit {
       };
 
       this.cartService.addCart(this.cartObj);
+      this.isOkLoading = true;
+      setTimeout(() => {
+        this.isOkLoading = false;
+      }, 3000);
       this.router.routeReuseStrategy.shouldReuseRoute = () => {
         return false;
       };
@@ -115,6 +120,10 @@ export class ProductsComponent implements OnInit {
           };
 
           this.cartService.addCart(this.cartObj);
+          this.isOkLoading = true;
+          setTimeout(() => {
+            this.isOkLoading = false;
+          }, 3000);
           this.router.routeReuseStrategy.shouldReuseRoute = () => {
             return false;
           };

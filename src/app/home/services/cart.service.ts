@@ -27,7 +27,7 @@ export class CartService {
     this.cart = this.cartCollection.valueChanges();
   }
 
-  getOrders() {
+  getOrders(): Observable<CartModel[]> {
     return this.cart;
   }
 

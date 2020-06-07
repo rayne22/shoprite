@@ -15,12 +15,13 @@
     />
     <input type="submit" value=" " (click)="searchItem()" />
   </div>
-  <nz-spin nzSize="small" [nzSpinning]="isOkLoading">
-    <div class="product_list_header" style="background: #010c36;">
-      <!-- <form action="#" method="post" class="last">
+
+  <div class="product_list_header" style="background: #010c36;">
+    <!-- <form action="#" method="post" class="last">
       <fieldset>
         <input type="hidden" name="cmd" value="_cart" />
         <input type="hidden" name="display" value="1" /> -->
+    <nz-spin nzSize="small" [nzSpinning]="isOkLoading">
       <input
         name="submit"
         type="button"
@@ -33,9 +34,10 @@
       <span class="badge badge-light" style="color: #fa1818;">{{
         numberInCart
       }}</span>
-      <!-- </form> -->
-    </div>
-  </nz-spin>
+    </nz-spin>
+    <!-- </form> -->
+  </div>
+
   <div class="w3l_header_right">
     <ul>
       <li class="dropdown profile_details_drop">

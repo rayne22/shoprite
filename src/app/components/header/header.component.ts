@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { CartModel } from "src/app/home/models/cart.model";
 import { CartService } from "src/app/home/services/cart.service";
 import { NzMessageService } from "ng-zorro-antd";
@@ -16,6 +16,7 @@ import * as forge from "node-forge";
 import * as utf8 from "utf8";
 import * as md5 from "md5";
 import { HttpClient } from "@angular/common/http";
+import { async } from "rxjs/internal/scheduler/async";
 
 @Component({
   selector: "app-header",
@@ -48,9 +49,10 @@ export class HeaderComponent implements OnInit {
     "Customer Satisfaction Guaranteed",
   ];
 
+  @Input() isOkLoading;
+
   selectedValue = null;
   selectedPayment = "";
-  isOkLoading = false;
 
   constructor(
     private cartService: CartService,
@@ -89,22 +91,16 @@ export class HeaderComponent implements OnInit {
     this.usersService.getUsers().subscribe((users) => {
       this.userData = users.filter((x) => x.email === this.user.email)[0];
       this.cardForm.get("cardName").setValue(this.userData.clientName);
+
       this.cartService.getOrders().subscribe((res) => {
-        this.listOfData = res.filter(
+        this.listOfDisplayData = res.filter(
           (x) =>
             x.clientId === this.userData.id &&
             x.checkoutStatus === "Pending Checkout"
         );
-        this.listOfDisplayData = this.listOfData;
+        // this.listOfDisplayData = this.listOfData;
         this.numberInCart = this.listOfDisplayData.length;
         console.log("Orders>>>>", this.listOfDisplayData);
-        // for (const s of this.listOfDisplayData) {
-        //   this.total = this.total + s.amount;
-        // }
-
-        // for (const l of this.listOfDisplayData) {
-        //   l.amount = l.amount * l.quantity;
-        // }
 
         const sum: number = this.listOfDisplayData
           .map((a) => a.amount * a.quantity)
@@ -117,6 +113,31 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  ngOnChanges() {
+    this.usersService.getUsers().subscribe((users) => {
+      this.userData = users.filter((x) => x.email === this.user.email)[0];
+      this.cardForm.get("cardName").setValue(this.userData.clientName);
+
+      this.cartService.getOrders().subscribe((res) => {
+        this.listOfDisplayData = res.filter(
+          (x) =>
+            x.clientId === this.userData.id &&
+            x.checkoutStatus === "Pending Checkout"
+        );
+        // this.listOfDisplayData = this.listOfData;
+        this.numberInCart = this.listOfDisplayData.length;
+        console.log("Orders>>>>", this.listOfDisplayData);
+
+        const sum: number = this.listOfDisplayData
+          .map((a) => a.amount * a.quantity)
+          .reduce((a, b) => {
+            return a + b;
+          });
+        console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
+        this.total = sum + 40;
+      });
+    });
+  }
   edit(item) {
     this.cartService.deleteItem(item);
   }
@@ -139,7 +160,7 @@ export class HeaderComponent implements OnInit {
     this.total = sum;
 
     let quantitySum = 0;
-    this.listOfData.forEach((a) => (quantitySum += Number(a.quantity)));
+    this.listOfDisplayData.forEach((a) => (quantitySum += Number(a.quantity)));
 
     this.newQuantity = quantitySum;
     console.log("this>>>>>", this.newQuantity);
