@@ -52,7 +52,23 @@
           <div class="snipcart-thumb agileinfo_single_right_snipcart">
             <h4>ZMW {{ viewItem.price }}</h4>
           </div>
-          <div class="snipcart-details agileinfo_single_right_details">
+
+          <div
+            *ngIf="!authService.userData"
+            class="snipcart-details agileinfo_single_right_details"
+          >
+            <input
+              type="button"
+              name="submit"
+              value="Add to cart"
+              class="button"
+              (click)="signIn()"
+            />
+          </div>
+          <div
+            *ngIf="authService.userData"
+            class="snipcart-details agileinfo_single_right_details"
+          >
             <input
               type="button"
               name="submit"
@@ -107,7 +123,18 @@
                   <p>{{ catItem.itemName }}</p>
                   <h4>ZMW {{ catItem.price }}</h4>
                 </div>
-                <div class="snipcart-details">
+                <div *ngIf="!authService.userData" class="snipcart-details">
+                  <form>
+                    <input
+                      type="button"
+                      name="submit"
+                      value="Add to cart"
+                      class="button"
+                      (click)="signIn()"
+                    />
+                  </form>
+                </div>
+                <div *ngIf="authService.userData" class="snipcart-details">
                   <form>
                     <input
                       type="button"

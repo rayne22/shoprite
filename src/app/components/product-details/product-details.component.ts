@@ -9,6 +9,7 @@ import { NzMessageService } from "ng-zorro-antd";
 import { v4 } from "uuid";
 import { UsersService } from "src/app/home/services/users.service";
 import { UserModel } from "src/app/home/models/user.model";
+import { AuthService } from "src/app/home/services/auth.service";
 
 @Component({
   selector: "app-product-details",
@@ -34,6 +35,7 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private route: ActivatedRoute,
+    public authService: AuthService,
     private categoryService: CategoriesService,
     private cartService: CartService,
     private msg: NzMessageService,
@@ -135,5 +137,9 @@ export class ProductDetailsComponent implements OnInit {
     this.router.navigateByUrl(
       "/product-details/" + this.id + "/" + value.itemNumber
     );
+  }
+
+  signIn() {
+    this.router.navigateByUrl("/sign-in");
   }
 }

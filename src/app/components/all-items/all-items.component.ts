@@ -9,6 +9,7 @@ import { UserModel } from "src/app/home/models/user.model";
 import { v4 } from "uuid";
 import { CartService } from "src/app/home/services/cart.service";
 import { UsersService } from "src/app/home/services/users.service";
+import { AuthService } from "src/app/home/services/auth.service";
 
 @Component({
   selector: "app-all-items",
@@ -41,6 +42,7 @@ export class AllItemsComponent implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private categoryService: CategoriesService,
+    public authService: AuthService,
     private readonly router: Router,
     private route: ActivatedRoute,
     private cartService: CartService,
@@ -147,5 +149,9 @@ export class AllItemsComponent implements OnInit {
         break;
       }
     }
+  }
+
+  signIn() {
+    this.router.navigateByUrl("/sign-in");
   }
 }
