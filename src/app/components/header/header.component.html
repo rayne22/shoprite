@@ -6,6 +6,10 @@
   </div>
   <div class="w3l_search">
     <input
+      nz-input
+      [(ngModel)]="inputValue"
+      (ngModelChange)="onChange($event)"
+      [nzAutocomplete]="auto"
       type="text"
       name="Product"
       value="Search a product..."
@@ -13,6 +17,15 @@
       onblur="if (this.value == '') {this.value = 'Search a product...';}"
       required=""
     />
+    <!-- <nz-autocomplete [nzDataSource]="newItems" #auto></nz-autocomplete> -->
+
+    <nz-autocomplete #auto>
+      <nz-auto-option
+        *ngFor="let option of searchItems"
+        [nzValue]="option.itemName"
+        >{{ option.itemName }}</nz-auto-option
+      >
+    </nz-autocomplete>
     <input type="submit" value=" " (click)="searchItem()" />
   </div>
 

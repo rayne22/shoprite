@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: "register-user", component: SignUpComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "verify-email-address", component: VerifyEmailComponent },
-  { path: "view-item", component: AllItemsComponent },
+  { path: "view-item/:itemId", component: AllItemsComponent },
 ];
 
 @NgModule({

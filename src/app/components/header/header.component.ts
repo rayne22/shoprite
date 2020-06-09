@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { CartModel } from "src/app/home/models/cart.model";
 import { CartService } from "src/app/home/services/cart.service";
 import { NzMessageService } from "ng-zorro-antd";
@@ -17,10 +17,14 @@ import * as utf8 from "utf8";
 import * as md5 from "md5";
 import { HttpClient } from "@angular/common/http";
 import { async } from "rxjs/internal/scheduler/async";
+import { CategoryModel } from "src/app/home/models/categories.model";
+import { CategoriesService } from "src/app/home/services/categories.service";
+import { ItemModel } from "src/app/home/models/items.model";
 
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
+  encapsulation: ViewEncapsulation.None,
   styleUrls: ["./header.component.css"],
 })
 export class HeaderComponent implements OnInit {
@@ -32,8 +36,10 @@ export class HeaderComponent implements OnInit {
   numberInCart: number;
   disabled = true;
 
-  listOfData: CartModel[];
-  listOfDisplayData: CartModel[];
+  listOfData: CartModel[] = [];
+  listOfDisplayData: CartModel[] = [];
+  listOfCategoryData: CategoryModel[] = [];
+  listOfDisplayCategoryData: CategoryModel[] = [];
   cart: CartModel;
   total = 0;
   quant: CartModel;
@@ -53,6 +59,10 @@ export class HeaderComponent implements OnInit {
 
   selectedValue = null;
   selectedPayment = "";
+  newItems: ItemModel[] = [];
+  inputValue?: string;
+  searchItems: ItemModel[] = [];
+  searchedItem = "";
 
   constructor(
     private cartService: CartService,
@@ -63,7 +73,8 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private readonly router: Router,
     private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private categoryService: CategoriesService
   ) {
     this.addressForm = fb.group({
       clientName: ["", Validators.required],
@@ -111,6 +122,24 @@ export class HeaderComponent implements OnInit {
         this.total = sum + 40;
       });
     });
+
+    this.categoryService.getCategories().subscribe((res) => {
+      console.log("New Items>>>>", res);
+      this.listOfCategoryData = res;
+      this.listOfDisplayCategoryData = this.listOfCategoryData;
+      // this.totalNumber = this.listOfData.length;
+      for (const cat of this.listOfDisplayCategoryData) {
+        if (cat.items !== undefined || []) {
+          this.newItems = this.newItems.concat(cat.items);
+          // this.hotOffer = this.newItems.filter(
+          //   (x) => x.promoStatus === "On Promotion"
+          // );
+        }
+      }
+
+      this.searchItems = this.newItems;
+      console.log("New Items>>>>", this.newItems, res);
+    });
   }
 
   ngOnChanges() {
@@ -138,6 +167,21 @@ export class HeaderComponent implements OnInit {
       });
     });
   }
+
+  // onInput(event: Event): void {
+  //   const value = (event.target as HTMLInputElement).value;
+  //   this.newItems = value ? this.newItems : [];
+  // }
+
+  onChange(value: string): void {
+    this.searchItems = this.newItems.filter(
+      (option) =>
+        option.itemName.toLowerCase().indexOf(value.toLowerCase()) !== -1
+    );
+    this.searchedItem = value;
+    console.log("SELECTED ITEM", value);
+  }
+
   edit(item) {
     this.cartService.deleteItem(item);
   }
@@ -226,7 +270,7 @@ export class HeaderComponent implements OnInit {
     this.total = sum + 40;
   }
   searchItem() {
-    this.router.navigateByUrl("view-item");
+    this.router.navigateByUrl("view-item/" + this.searchedItem);
   }
 
   handleAddress() {
