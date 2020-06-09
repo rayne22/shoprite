@@ -8,6 +8,7 @@ import { CartModel } from "src/app/home/models/cart.model";
 import { UserModel } from "src/app/home/models/user.model";
 import { v4 } from "uuid";
 import { CartService } from "src/app/home/services/cart.service";
+import { UsersService } from "src/app/home/services/users.service";
 
 @Component({
   selector: "app-all-items",
@@ -42,7 +43,8 @@ export class AllItemsComponent implements OnInit {
     private categoryService: CategoriesService,
     private readonly router: Router,
     private route: ActivatedRoute,
-    private cartService: CartService
+    private cartService: CartService,
+    private usersService: UsersService
   ) {}
 
   ngOnInit(): void {
@@ -63,10 +65,24 @@ export class AllItemsComponent implements OnInit {
           }
         }
 
+        this.cartService.getOrders().subscribe((res) => {
+          this.cartList = res.filter(
+            (x) => x.checkoutStatus === "Pending Checkout"
+          );
+          console.log("Cart >>>>", this.cartList);
+        });
+
         this.viewItem = this.newItems.filter(
           (x) => x.itemName === itemId.itemId
         )[0];
         console.log("ITEMS>>>>", this.newItems, this.id);
+      });
+
+      this.user = JSON.parse(localStorage.getItem("user"));
+
+      console.log("USER>>>>>>", this.user);
+      this.usersService.getUsers().subscribe((users) => {
+        this.userData = users.filter((x) => x.email === this.user.email)[0];
       });
     });
   }
