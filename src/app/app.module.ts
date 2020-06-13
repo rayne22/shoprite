@@ -76,7 +76,6 @@ const firebaseConfig = {
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    // RavepaymentModule,
   ],
   providers: [
     CategoriesService,

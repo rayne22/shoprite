@@ -44,7 +44,6 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((id) => {
-      console.log("Product ID >>>>", id);
       this.id = id.id;
       this.categoryService.getCategories().subscribe((res) => {
         this.category = res.filter((x) => x.categoryNumber === this.id)[0];
@@ -52,19 +51,16 @@ export class ProductDetailsComponent implements OnInit {
         this.item = this.category.items.filter(
           (x) => x.itemNumber === id.itemId
         )[0];
-        console.log("Product ID >>>>", this.category);
       });
 
       this.cartService.getOrders().subscribe((res) => {
         this.cartList = res.filter(
           (x) => x.checkoutStatus === "Pending Checkout"
         );
-        console.log("Cart >>>>", this.cartList);
       });
 
       this.user = JSON.parse(localStorage.getItem("user"));
 
-      console.log("USER>>>>>>", this.user);
       this.usersService.getUsers().subscribe((users) => {
         this.userData = users.filter((x) => x.email === this.user.email)[0];
       });
@@ -97,7 +93,6 @@ export class ProductDetailsComponent implements OnInit {
       };
     } else {
       for (const item of this.cartList) {
-        console.log("Value Single>>>>", item);
         if (item.cartDescription === value.itemName) {
           item.quantity = item.quantity + 1;
           item.amount = item.amount + value.price * item.quantity;

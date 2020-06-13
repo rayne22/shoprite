@@ -63,8 +63,6 @@ export class CartService {
   }
 
   deleteItem(cart: CartModel) {
-    console.log("DELETE LOG>>>>>", cart);
-
     this.cartCollection
       .doc(cart.id)
       .delete()

@@ -29,8 +29,6 @@ export class CategoriesService {
       .doc(category.id)
       .update(category)
       .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 }

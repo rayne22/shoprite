@@ -51,19 +51,13 @@ export class AllItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((itemId) => {
-      console.log(itemId);
-
       this.categoryService.getCategories().subscribe((res) => {
         this.listOfData = res;
         this.listOfDisplayData = this.listOfData;
-        // this.totalNumber = this.listOfData.length;
         for (const cat of res) {
           if (cat.items !== undefined || []) {
             this.id = cat.id;
             this.newItems = this.newItems.concat(cat.items);
-            // this.hotOffer = this.newItems.filter(
-            //   (x) => x.promoStatus === "On Promotion"
-            // );
           }
         }
 
@@ -71,18 +65,14 @@ export class AllItemsComponent implements OnInit {
           this.cartList = res.filter(
             (x) => x.checkoutStatus === "Pending Checkout"
           );
-          console.log("Cart >>>>", this.cartList);
         });
 
         this.viewItem = this.newItems.filter(
           (x) => x.itemName === itemId.itemId
         )[0];
-        console.log("ITEMS>>>>", this.newItems, this.id);
       });
 
       this.user = JSON.parse(localStorage.getItem("user"));
-
-      console.log("USER>>>>>>", this.user);
       this.usersService.getUsers().subscribe((users) => {
         this.userData = users.filter((x) => x.email === this.user.email)[0];
       });
@@ -115,7 +105,6 @@ export class AllItemsComponent implements OnInit {
       };
     } else {
       for (const item of this.cartList) {
-        console.log("Value Single>>>>", item);
         if (item.cartDescription === value.itemName) {
           item.quantity = item.quantity + 1;
           item.amount = item.amount + value.price * item.quantity;

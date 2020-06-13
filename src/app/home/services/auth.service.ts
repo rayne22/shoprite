@@ -86,13 +86,9 @@ export class AuthService {
           .then(() => {
             this.router.navigate(["verify-email-address"]);
           })
-          .catch((err) => {
-            console.log(err);
-          });
+          .catch((err) => {});
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   }
 
   // Reset Forggot password

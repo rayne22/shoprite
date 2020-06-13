@@ -18,8 +18,6 @@ export class FooterComponent implements OnInit {
     this.categoryService.getCategories().subscribe((res) => {
       this.listOfData = res;
       this.listOfDisplayData = this.listOfData;
-      // this.totalNumber = this.listOfData.length;
-      console.log("Categories>>>>", this.listOfDisplayData);
     });
   }
 }

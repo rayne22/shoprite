@@ -22,7 +22,6 @@ export class CartComponent implements OnInit {
     this.cartService.getOrders().subscribe((res) => {
       this.listOfData = res;
       this.listOfDisplayData = this.listOfData;
-      console.log("Orders>>>>", this.listOfDisplayData);
     });
   }
 

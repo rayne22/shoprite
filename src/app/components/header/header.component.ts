@@ -92,13 +92,10 @@ export class HeaderComponent implements OnInit {
       cvc: ["", Validators.required],
       cardName: ["", Validators.required],
     });
-
-    console.log(this.ads);
   }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("user"));
-    console.log("USER>>>>>>", this.user);
     this.usersService.getUsers().subscribe((users) => {
       this.userData = users.filter((x) => x.email === this.user.email)[0];
       this.cardForm.get("cardName").setValue(this.userData.clientName);
@@ -109,36 +106,27 @@ export class HeaderComponent implements OnInit {
             x.clientId === this.userData.id &&
             x.checkoutStatus === "Pending Checkout"
         );
-        // this.listOfDisplayData = this.listOfData;
         this.numberInCart = this.listOfDisplayData.length;
-        console.log("Orders>>>>", this.listOfDisplayData);
 
         const sum: number = this.listOfDisplayData
           .map((a) => a.amount * a.quantity)
           .reduce((a, b) => {
             return a + b;
           });
-        console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
         this.total = sum + 40;
       });
     });
 
     this.categoryService.getCategories().subscribe((res) => {
-      console.log("New Items>>>>", res);
       this.listOfCategoryData = res;
       this.listOfDisplayCategoryData = this.listOfCategoryData;
-      // this.totalNumber = this.listOfData.length;
       for (const cat of this.listOfDisplayCategoryData) {
         if (cat.items !== undefined || []) {
           this.newItems = this.newItems.concat(cat.items);
-          // this.hotOffer = this.newItems.filter(
-          //   (x) => x.promoStatus === "On Promotion"
-          // );
         }
       }
 
       this.searchItems = this.newItems;
-      console.log("New Items>>>>", this.newItems, res);
     });
   }
 
@@ -153,25 +141,17 @@ export class HeaderComponent implements OnInit {
             x.clientId === this.userData.id &&
             x.checkoutStatus === "Pending Checkout"
         );
-        // this.listOfDisplayData = this.listOfData;
         this.numberInCart = this.listOfDisplayData.length;
-        console.log("Orders>>>>", this.listOfDisplayData);
 
         const sum: number = this.listOfDisplayData
           .map((a) => a.amount * a.quantity)
           .reduce((a, b) => {
             return a + b;
           });
-        console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
         this.total = sum + 40;
       });
     });
   }
-
-  // onInput(event: Event): void {
-  //   const value = (event.target as HTMLInputElement).value;
-  //   this.newItems = value ? this.newItems : [];
-  // }
 
   onChange(value: string): void {
     this.searchItems = this.newItems.filter(
@@ -179,7 +159,6 @@ export class HeaderComponent implements OnInit {
         option.itemName.toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
     this.searchedItem = value;
-    console.log("SELECTED ITEM", value);
   }
 
   edit(item) {
@@ -207,7 +186,6 @@ export class HeaderComponent implements OnInit {
     this.listOfDisplayData.forEach((a) => (quantitySum += Number(a.quantity)));
 
     this.newQuantity = quantitySum;
-    console.log("this>>>>>", this.newQuantity);
 
     this.order = {
       id: v4(),
@@ -234,26 +212,16 @@ export class HeaderComponent implements OnInit {
   }
 
   handleCancel(): void {
-    console.log("Button cancel clicked!");
     this.isVisible = false;
   }
 
   log(value) {
-    // this.quant = this.listOfDisplayData.filter((x) => x.id === value.id)[0];
-    // this.quant.quantity = res;
-
-    // this.quant.amount = this.quant.amount * res;
-
-    // this.cartService.updateCartQuantity(value);
     const sum: number = this.listOfDisplayData
       .map((a) => a.amount * a.quantity)
       .reduce((a, b) => {
         return a + b;
       });
-    console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
     this.total = sum + 40;
-
-    console.log("TTTTTTT>>>>", value);
   }
 
   handleCheck() {
@@ -266,7 +234,6 @@ export class HeaderComponent implements OnInit {
       .reduce((a, b) => {
         return a + b;
       });
-    console.log("ewrwerewrwer r wrewrw>>>>>>", sum);
     this.total = sum + 40;
   }
   searchItem() {
@@ -319,12 +286,8 @@ export class HeaderComponent implements OnInit {
         cardInfo
       )
       .subscribe(
-        (res) => {
-          console.log(res);
-        },
-        (err) => {
-          console.log("ERROR", err);
-        }
+        (res) => {},
+        (err) => {}
       );
   }
 
@@ -373,13 +336,9 @@ export class HeaderComponent implements OnInit {
 
   payWithRave() {}
 
-  confirmPayment(response: object): void {
-    console.log(response);
-  }
+  confirmPayment(response: object): void {}
 
-  cancelledPayment(): void {
-    console.log("close");
-  }
+  cancelledPayment(): void {}
 
   generateReference(): string {
     let text = "";

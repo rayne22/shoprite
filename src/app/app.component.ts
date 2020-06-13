@@ -11,9 +11,4 @@ import {
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent {
-  items: Observable<any[]>;
-  constructor(firestore: AngularFirestore) {
-    this.items = firestore.collection("items").valueChanges();
-  }
-}
+export class AppComponent {}

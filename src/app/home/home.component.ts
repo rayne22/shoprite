@@ -35,15 +35,12 @@ export class HomeComponent implements OnInit {
     this.items = this.newItems[
       Math.floor(Math.random() * this.newItems.length)
     ];
-
-    console.log("One Two, One Two", this.items);
   }
 
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe((res) => {
       this.listOfData = res;
       this.listOfDisplayData = this.listOfData;
-      // this.totalNumber = this.listOfData.length;
       for (const cat of res) {
         if (cat.items !== undefined || []) {
           this.newItems = this.newItems.concat(cat.items);
@@ -52,18 +49,9 @@ export class HomeComponent implements OnInit {
           );
         }
       }
-      console.log("Categories>>>>", this.newItems);
       this.items = this.newItems[
         Math.floor(Math.random() * this.newItems.length)
       ];
-
-      console.log("One Two, One Two", this.items);
     });
   }
-
-  // addNewItem(value, category) {
-  //   this.router.navigateByUrl(
-  //     "/product-details/" + this.id + "/" + value.itemNumber
-  //   );
-  // }
 }
