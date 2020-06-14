@@ -33,7 +33,7 @@ import { ForgotPasswordComponent } from "./components/forgot-password/forgot-pas
 import { AuthService } from "./home/services/auth.service";
 import { AllItemsComponent } from "./components/all-items/all-items.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { HomeModule } from './home/home.module';
+import { HomeModule } from "./home/home.module";
 
 registerLocaleData(en);
 
@@ -51,18 +51,17 @@ const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    NavbarComponent,
-    FooterComponent,
-    ProductsComponent,
-    HeaderComponent,
-    ProductDetailsComponent,
-    CartComponent,
-    SignInComponent,
-    SignUpComponent,
-    VerifyEmailComponent,
-    ForgotPasswordComponent,
-    AllItemsComponent,
+    // NavbarComponent,
+    // FooterComponent,
+    // ProductsComponent,
+    // HeaderComponent,
+    // ProductDetailsComponent,
+    // CartComponent,
+    // SignInComponent,
+    // SignUpComponent,
+    // VerifyEmailComponent,
+    // ForgotPasswordComponent,
+    // AllItemsComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,22 +69,15 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    FormsModule,
-    HttpClientModule,
     BrowserAnimationsModule,
-    NgZorroAntdModule,
-    NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
     HomeModule,
   ],
   providers: [
-    CategoriesService,
-    { provide: NZ_I18N, useValue: en_US },
-    CartService,
-    OrdersService,
-    AuthService,
+    // CategoriesService,
+    // CartService,
+    // OrdersService,
+    // AuthService,
   ],
-  bootstrap: [AppComponent, HomeComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -20,7 +20,7 @@
         <li *ngFor="let item of listOfDisplayData">
           <a
             style="text-transform: uppercase;"
-            [routerLink]="['/products/', item.categoryNumber]"
+            [routerLink]="['home/products/', item.categoryNumber]"
             >{{ item.categoryName }}</a
           >
         </li>
