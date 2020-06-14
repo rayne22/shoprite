@@ -38,7 +38,7 @@ export class OrdersService {
         .doc(order.id)
         .set(order)
         .then((res) => {
-          this.msg.success("SUccessifully Checked Out");
+          this.msg.success("SUccessfully Checked Out");
         })
         .catch((err) => {
           this.msg.warning("failed");

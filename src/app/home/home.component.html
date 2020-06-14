@@ -42,7 +42,7 @@
 <div class="banner_bottom">
   <div class="wthree_banner_bottom_left_grid_sub"></div>
   <div class="wthree_banner_bottom_left_grid_sub1">
-    <div class="col-md-4 wthree_banner_bottom_left">
+    <!-- <div class="col-md-4 wthree_banner_bottom_left">
       <div class="wthree_banner_bottom_left_grid">
         <img
           src="assets/img/shb.jpeg"
@@ -50,12 +50,12 @@
           class="img-responsive"
           style="height: 350px;"
         />
-        <!-- <div class="wthree_banner_bottom_left_grid_pos">
+        !-- <div class="wthree_banner_bottom_left_grid_pos">
           <h4>Discount Offer <span>25%</span></h4>
-        </div> -->
+        </div> --
       </div>
-    </div>
-    <div class="col-md-4 wthree_banner_bottom_left">
+    </div> -->
+    <div class="col-md-6 wthree_banner_bottom_left">
       <div class="wthree_banner_bottom_left_grid">
         <img
           src="assets/img/shoprite.png"
@@ -68,7 +68,7 @@
         </div> -->
       </div>
     </div>
-    <div class="col-md-4 wthree_banner_bottom_left">
+    <div class="col-md-6 wthree_banner_bottom_left">
       <div class="wthree_banner_bottom_left_grid">
         <img
           src="assets/img/shopf.png"
@@ -143,9 +143,11 @@
           <ul>
             <li *ngFor="let item of listOfDisplayData">
               <i class="fa fa-check" aria-hidden="true"></i
-              ><a [routerLink]="['/products/', item.categoryNumber]">{{
-                item.categoryName
-              }}</a>
+              ><a
+                style="text-transform: uppercase;"
+                [routerLink]="['/products/', item.categoryNumber]"
+                >{{ item.categoryName }}</a
+              >
             </li>
           </ul>
         </div>
@@ -161,14 +163,14 @@
             <div class="w3l_fresh_vegetables_grid1_rel">
               <img src="assets/images/7.jpg" alt=" " class="img-responsive" />
               <div class="w3l_fresh_vegetables_grid1_rel_pos">
-                <div class="more m1">
+                <!-- <div class="more m1">
                   <a
                     href="products.html"
                     class="button--saqui button--round-l button--text-thick"
                     data-text="Shop now"
                     >Shop now</a
                   >
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

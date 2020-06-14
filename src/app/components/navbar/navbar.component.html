@@ -18,9 +18,11 @@
     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
       <ul class="nav navbar-nav nav_1">
         <li *ngFor="let item of listOfDisplayData">
-          <a [routerLink]="['/products/', item.categoryNumber]">{{
-            item.categoryName
-          }}</a>
+          <a
+            style="text-transform: uppercase;"
+            [routerLink]="['/products/', item.categoryNumber]"
+            >{{ item.categoryName }}</a
+          >
         </li>
       </ul>
     </div>
