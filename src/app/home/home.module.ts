@@ -23,6 +23,7 @@ import { CategoriesService } from "./services/categories.service";
 import { CartService } from "./services/cart.service";
 import { OrdersService } from "./services/orders.service";
 import { AuthService } from "./services/auth.service";
+import { AboutUsComponent } from "../about-us/about-us.component";
 
 const routes: Routes = [
   // {
@@ -31,6 +32,7 @@ const routes: Routes = [
   //   pathMatch: "full",
   // },
   { path: "", component: HomeComponent },
+  { path: "about-us", component: AboutUsComponent },
   { path: "products/:id", component: ProductsComponent },
   {
     path: "product-details/:id/:itemId",
@@ -58,6 +60,7 @@ const routes: Routes = [
     ForgotPasswordComponent,
     AllItemsComponent,
     HomeComponent,
+    AboutUsComponent,
   ],
   imports: [
     NgbModule,
