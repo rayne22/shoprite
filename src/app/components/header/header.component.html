@@ -220,15 +220,15 @@
 <nz-drawer
   [(nzVisible)]="isAddressConfirmationVisible"
   nzTitle="Deliver"
-  [nzWidth]="1000"
+  nzWidth="95%"
   (nzOnClose)="handleAddressCancel()"
   [nzMaskClosable]="false"
   [nzPlacement]="'left'"
   (nzOnOk)="handleOk()"
 >
   <div style="padding: 30px;">
-    <div nz-row [nzGutter]="8">
-      <div nz-col [nzSpan]="12">
+    <div class="row">
+      <div class="col-md-6">
         <nz-card nzTitle="Confirm Delivery Address">
           <form nz-form [formGroup]="addressForm">
             <nz-form-item>
@@ -326,7 +326,7 @@
           </form>
         </nz-card>
       </div>
-      <div nz-col [nzSpan]="12">
+      <div class="col-md-6">
         <nz-card nzTitle="Confirm Payment Method">
           <nz-select
             nzPlaceHolder="Select Payment Method"
