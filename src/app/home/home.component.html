@@ -92,6 +92,7 @@
     <div class="agile_top_brands_grids">
       <div
         class="col-md-3 top_brand_left"
+        style="height: 400px;"
         *ngFor="let onOffer of hotOffer | slice: hotOffer.length - 5"
       >
         <div class="hover14 column">
@@ -114,6 +115,7 @@
                       [src]="onOffer.imgUrl"
                       alt=" "
                       class="img-responsive"
+                      style="height: 100px;"
                     />
                     <!-- </a> -->
                     <p>{{ onOffer.itemName }}</p>
