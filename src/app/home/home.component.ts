@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
   item: ItemModel;
   cart: CartModel;
   carts: CartModel[];
-  cartList: CartModel[];
+  cartList: CartModel[] = [];
   cartArray: CartModel[];
   id: any;
   cartObj: CartModel;
@@ -73,6 +73,16 @@ export class HomeComponent implements OnInit {
       this.items = this.newItems[
         Math.floor(Math.random() * this.newItems.length)
       ];
+
+      this.cartService.getOrders().subscribe((res) => {
+        this.cartList = res.filter(
+          (x) => x.checkoutStatus === "Pending Checkout"
+        );
+      });
+      this.user = JSON.parse(localStorage.getItem("user"));
+      this.usersService.getUsers().subscribe((users) => {
+        this.userData = users.filter((x) => x.email === this.user.email)[0];
+      });
     });
   }
 
