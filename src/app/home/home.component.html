@@ -92,7 +92,7 @@
     <div class="agile_top_brands_grids">
       <div
         class="col-md-3 top_brand_left"
-        *ngFor="let onOffer of hotOffer | slice: hotOffer.length - 4"
+        *ngFor="let onOffer of hotOffer | slice: hotOffer.length - 5"
       >
         <div class="hover14 column">
           <div class="agile_top_brand_left_grid">
@@ -107,16 +107,39 @@
               <figure>
                 <div class="snipcart-item block">
                   <div class="snipcart-thumb">
-                    <a href="single.html">
-                      <!-- <img title=" " alt=" "
+                    <!-- <a> -->
+                    <!-- <img title=" " alt=" "
                     />-->
-                      <img
-                        [src]="onOffer.imgUrl"
-                        alt=" "
-                        class="img-responsive"
-                    /></a>
+                    <img
+                      [src]="onOffer.imgUrl"
+                      alt=" "
+                      class="img-responsive"
+                    />
+                    <!-- </a> -->
                     <p>{{ onOffer.itemName }}</p>
                     <h4>ZMW {{ onOffer.price }}</h4>
+                  </div>
+                  <div *ngIf="!authService.userData" class="snipcart-details">
+                    <form>
+                      <input
+                        type="button"
+                        name="submit"
+                        value="Add to cart"
+                        class="button"
+                        (click)="signIn()"
+                      />
+                    </form>
+                  </div>
+                  <div *ngIf="authService.userData" class="snipcart-details">
+                    <form>
+                      <input
+                        type="button"
+                        name="submit"
+                        value="Add to cart"
+                        class="button"
+                        (click)="addItem(onOffer)"
+                      />
+                    </form>
                   </div>
                   <div class="snipcart-details top_brand_home_details"></div>
                 </div>
