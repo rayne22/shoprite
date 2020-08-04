@@ -28,6 +28,7 @@
     "crypto-js": "^4.0.0",
     "firebase": "^7.8.0",
     "md5": "^2.2.1",
+    "ng-lottie": "^0.3.2",
     "ng-zorro-antd": "^9.1.2",
     "node-cryptico": "^1.0.1",
     "node-forge": "^0.9.1",

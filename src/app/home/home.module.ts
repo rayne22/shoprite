@@ -18,11 +18,9 @@ import { NgZorroAntdModule, NZ_I18N, en_US } from "ng-zorro-antd";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CategoriesService } from "./services/categories.service";
 import { CartService } from "./services/cart.service";
 import { OrdersService } from "./services/orders.service";
-import { AuthService } from "./services/auth.service";
 import { AboutUsComponent } from "../about-us/about-us.component";
 
 const routes: Routes = [
