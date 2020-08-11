@@ -47,11 +47,7 @@
                   <div class="snipcart-item block">
                     <div class="snipcart-thumb">
                       <a
-                        [routerLink]="[
-                          'home/product-details/',
-                          category.categoryNumber,
-                          item.itemNumber
-                        ]"
+                          (click)="productDetailURL(category.categoryNumber, item.itemNumber)"
                         ><img
                           [src]="item.imgUrl"
                           alt=" "

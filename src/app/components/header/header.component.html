@@ -56,10 +56,14 @@
       <li class="dropdown profile_details_drop">
         <a
           *ngIf="!authService.userData as user"
-          href="#"
-          class="dropdown-toggle"
-          data-toggle="dropdown"
+          nz-dropdown style="color: #f0f0f0;" [nzDropdownMenu]="menu"
         >
+<!--        <a-->
+<!--          *ngIf="!authService.userData as user"-->
+<!--          href="#"-->
+<!--          class="dropdown-toggle"-->
+<!--          data-toggle="dropdown"-->
+<!--        >-->
           <!-- <i class="fa fa-user" aria-hidden="true"></i
           ><span class="caret"></span
         > -->
@@ -67,31 +71,37 @@
         </a>
         <a
           *ngIf="authService.userData as user"
-          href="#"
-          class="dropdown-toggle"
-          data-toggle="dropdown"
+          nz-dropdown style="color: #f0f0f0;" [nzDropdownMenu]="menu"
         >
           <!-- <i class="fa fa-user" aria-hidden="true"></i
           ><span class="caret"></span
         > -->
           {{ user.email }}
         </a>
-        <div class="mega-dropdown-menu">
-          <div class="w3ls_vegetables">
-            <ul class="dropdown-menu drp-mnu">
-              <div *ngIf="!authService.userData">
-                <li><a routerLink="/sign-in">Login</a></li>
-                <li><a routerLink="/register-user">Sign Up</a></li>
-              </div>
-              <div *ngIf="authService.userData as user">
-                <!-- <li>
-                  <a>{{ user.email }}</a>
-                </li> -->
-                <li><a (click)="authService.SignOut()">Log Out</a></li>
-              </div>
-            </ul>
-          </div>
-        </div>
+<!--        <div class="mega-dropdown-menu">-->
+<!--          <div class="w3ls_vegetables">-->
+<!--            <ul class="dropdown-menu drp-mnu">-->
+<!--              <div *ngIf="!authService.userData">-->
+<!--                <li><a routerLink="/sign-in">Login</a></li>-->
+<!--                <li><a routerLink="/register-user">Sign Up</a></li>-->
+<!--              </div>-->
+<!--              <div *ngIf="authService.userData as user">-->
+<!--                &lt;!&ndash; <li>-->
+<!--                  <a>{{ user.email }}</a>-->
+<!--                </li> &ndash;&gt;-->
+<!--                <li><a (click)="authService.SignOut()">Log Out</a></li>-->
+<!--              </div>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item *ngIf="!authService.userData"><a routerLink="/sign-in">Login</a></li>
+            <li nz-menu-item *ngIf="!authService.userData"><a routerLink="/register-user">Sign Up</a></li>
+            <li nz-menu-item *ngIf="authService.userData  as user"><a (click)="authService.SignOut()">Log Out</a></li>
+          </ul>
+        </nz-dropdown-menu>
       </li>
     </ul>
   </div>
@@ -224,7 +234,6 @@
   (nzOnClose)="handleAddressCancel()"
   [nzMaskClosable]="false"
   [nzPlacement]="'left'"
-  (nzOnOk)="handleOk()"
 >
   <div style="padding: 30px;">
     <div class="row">
@@ -337,7 +346,9 @@
               nzLabel="Visa"
             ></nz-option>
             <nz-option nzValue="Cash" nzLabel="Cash"></nz-option>
-            <nz-option nzValue="MoMo" nzLabel="MoMo"></nz-option>
+            <nz-option nzValue="mtn" nzLabel="MTN Mobile Money"></nz-option>
+            <nz-option nzValue="airtel" nzLabel="Airtel Mobile Money"></nz-option>
+            <nz-option nzValue="eWallet" nzLabel="EWallet"></nz-option>
           </nz-select>
 
           <div *ngIf="selectedPayment === 'Visa'" class="container">
@@ -436,114 +447,34 @@
             class="container"
             style="margin-top: 10px;"
           >
-            <form nz-form [formGroup]="addressForm">
-              <nz-form-item>
-                <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
-                <nz-form-control
-                  [nzSpan]="12"
-                  nzHasFeedback
-                  nzValidatingTip="Validating..."
-                  [nzErrorTip]="clientNameErrorTpl"
-                >
-                  <input nz-input formControlName="clientName" />
-                  <ng-template #clientNameErrorTpl let-control>
-                    <ng-container *ngIf="control.hasError('required')">
-                      Please input your client name!
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('duplicated')">
-                      The client name is redundant!
-                    </ng-container>
-                  </ng-template>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-label [nzSpan]="7" nzRequired
-                  >Phone Number</nz-form-label
-                >
-                <nz-form-control
-                  [nzSpan]="12"
-                  nzHasFeedback
-                  nzValidatingTip="Validating..."
-                  [nzErrorTip]="clientPhoneErrorTpl"
-                >
-                  <input nz-input formControlName="clientPhone" />
-                  <ng-template #clientPhoneErrorTpl let-control>
-                    <ng-container *ngIf="control.hasError('required')">
-                      Please input your client phone number!
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('duplicated')">
-                      The client number is redundant!
-                    </ng-container>
-                  </ng-template>
-                </nz-form-control>
-              </nz-form-item>
-
-              <nz-form-item>
-                <nz-form-control [nzOffset]="7" [nzSpan]="12">
-                  <button nz-button nzType="primary" (click)="handleOk()">
-                    Submit
-                  </button>
-                  <button nz-button>Reset</button>
-                </nz-form-control>
-              </nz-form-item>
-            </form>
+            <p>Please click Confirm to confirm your purchase </p>
+            <button nz-button (click)="handlePay()">Confirm</button>
           </div>
           <div
-            *ngIf="selectedPayment === 'MoMo'"
+            *ngIf="selectedPayment === 'mtn'"
             class="container"
             style="margin-top: 10px;"
           >
-            <form nz-form [formGroup]="addressForm">
-              <nz-form-item>
-                <nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
-                <nz-form-control
-                  [nzSpan]="12"
-                  nzHasFeedback
-                  nzValidatingTip="Validating..."
-                  [nzErrorTip]="clientNameErrorTpl"
-                >
-                  <input nz-input formControlName="clientName" />
-                  <ng-template #clientNameErrorTpl let-control>
-                    <ng-container *ngIf="control.hasError('required')">
-                      Please input your client name!
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('duplicated')">
-                      The client name is redundant!
-                    </ng-container>
-                  </ng-template>
-                </nz-form-control>
-              </nz-form-item>
-              <nz-form-item>
-                <nz-form-label [nzSpan]="7" nzRequired
-                  >Phone Number</nz-form-label
-                >
-                <nz-form-control
-                  [nzSpan]="12"
-                  nzHasFeedback
-                  nzValidatingTip="Validating..."
-                  [nzErrorTip]="clientPhoneErrorTpl"
-                >
-                  <input nz-input formControlName="clientPhone" />
-                  <ng-template #clientPhoneErrorTpl let-control>
-                    <ng-container *ngIf="control.hasError('required')">
-                      Please input your client phone number!
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('duplicated')">
-                      The client number is redundant!
-                    </ng-container>
-                  </ng-template>
-                </nz-form-control>
-              </nz-form-item>
+            <p>Please Pay to +26096******* (MTN Money)</p>
+            <button nz-button (click)="handlePay()">Confirm</button>
+          </div>
 
-              <nz-form-item>
-                <nz-form-control [nzOffset]="7" [nzSpan]="12">
-                  <button nz-button nzType="primary" (click)="handleOk()">
-                    Submit
-                  </button>
-                  <button nz-button>Reset</button>
-                </nz-form-control>
-              </nz-form-item>
-            </form>
+          <div
+            *ngIf="selectedPayment === 'airtel'"
+            class="container"
+            style="margin-top: 10px;"
+          >
+            <p>Please Pay to +26097******* (Airtel Money)</p>
+            <button nz-button (click)="handlePay()">Confirm</button>
+          </div>
+
+          <div
+            *ngIf="selectedPayment === 'eWallet'"
+            class="container"
+            style="margin-top: 10px;"
+          >
+            <p>Please Pay to +26097******* (E-Wallet)</p>
+            <button nz-button (click)="handlePay()">Confirm</button>
           </div>
         </nz-card>
       </div>

@@ -38,12 +38,17 @@ export class OrdersService {
         .doc(order.id)
         .set(order)
         .then((res) => {
-          this.msg.success("SUccessfully Checked Out");
+          this.msg.success("Successfully Checked Out");
         })
         .catch((err) => {
           this.msg.warning("failed");
         });
     });
+  }
+
+
+  cardPayment(pay) {
+    return this.http.post('https://dasha-pay.herokuapp.com/card/payment', pay)
   }
 
   updateOrder(order: OrderModel) {

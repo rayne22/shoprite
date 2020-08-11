@@ -67,6 +67,10 @@ export class ProductsComponent implements OnInit {
     this.router.navigateByUrl("/sign-in");
   }
 
+  productDetailURL(categoryNum:string, productDet:string) {
+    this.router.navigateByUrl(`/home/product-details/${categoryNum}/${productDet}`);
+  }
+
   addItem(value) {
     if (this.cartList.length <= 0) {
       this.cartObj = {

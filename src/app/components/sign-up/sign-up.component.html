@@ -33,30 +33,35 @@
               name="fullName"
               placeholder="Full Name"
               #clientName
+              required
             />
             <input
               type="password"
               name="Password"
               placeholder="Password"
               #clientPassword
+              required
             />
             <input
               type="email"
               name="Email"
               placeholder="Email Address"
               #clientEmail
+              required
             />
             <input
               type="text"
               name="Phone"
               placeholder="Phone Number"
               #clientPhone
+              required
             />
             <input
               type="text"
               name="address"
               placeholder="Address"
               #clientAddress
+              required
             />
             <input
               type="submit"
@@ -73,17 +78,17 @@
             />
           </div>
 
-          <div class="formGroup">
-            <button
-              style="background: #3cba54; color: #fff;"
-              type="button"
-              class="btn googleBtn"
-              (click)="authService.GoogleAuth()"
-            >
-              <i class="fab fa-google-plus-g"></i>
-              Log in with Google
-            </button>
-          </div>
+<!--          <div class="formGroup">-->
+<!--            <button-->
+<!--              style="background: #3cba54; color: #fff;"-->
+<!--              type="button"-->
+<!--              class="btn googleBtn"-->
+<!--              (click)="authService.GoogleAuth()"-->
+<!--            >-->
+<!--              <i class="fab fa-google-plus-g"></i>-->
+<!--              Log in with Google-->
+<!--            </button>-->
+<!--          </div>-->
           <div class="cta">
             <a routerLink="/sign-in">Sign In</a>
           </div>

@@ -20,6 +20,7 @@ import { async } from "rxjs/internal/scheduler/async";
 import { CategoryModel } from "src/app/home/models/categories.model";
 import { CategoriesService } from "src/app/home/services/categories.service";
 import { ItemModel } from "src/app/home/models/items.model";
+import {auth} from "firebase";
 
 @Component({
   selector: "app-header",
@@ -169,47 +170,6 @@ export class HeaderComponent implements OnInit {
     this.isVisible = true;
   }
 
-  handleOk(): void {
-    for (const l of this.listOfDisplayData) {
-      l.amount = l.amount * l.quantity;
-    }
-
-    const sum: number = this.listOfDisplayData
-      .map((a) => a.amount)
-      .reduce((a, b) => {
-        return a + b;
-      });
-
-    this.total = sum;
-
-    let quantitySum = 0;
-    this.listOfDisplayData.forEach((a) => (quantitySum += Number(a.quantity)));
-
-    this.newQuantity = quantitySum;
-
-    this.order = {
-      id: v4(),
-      orderNumber: "",
-      quantity: quantitySum,
-      amount: this.total,
-      deliveryStatus: "Not Delivered",
-      clientName: this.addressForm.controls.clientName.value,
-      clientId: this.userData.id,
-      clientPhone: this.addressForm.controls.clientPhone.value,
-      clientAddress: this.addressForm.controls.clientAddress.value,
-      cart: this.listOfDisplayData,
-    };
-
-    this.orderService.addOrder(this.order);
-    for (const cart of this.listOfDisplayData) {
-      cart.checkoutStatus = "Checked Out";
-      this.cartService.updateCart(cart);
-    }
-
-    this.total = 0;
-    this.isVisible = false;
-    this.isAddressConfirmationVisible = false;
-  }
 
   handleCancel(): void {
     this.isVisible = false;
@@ -254,100 +214,145 @@ export class HeaderComponent implements OnInit {
   }
 
   handleCardInfo() {
-    const cardInfo = {
-      PBFPubKey: "FLWPUBK_TEST-0ef81a81223825fa4d4d3c7188f027fc-X",
-      cardno: this.cardForm.controls.cardNumber.value,
-      cvv: this.cardForm.controls.cvc.value,
-      expirymonth: "06",
-      expiryyear: "20",
-      currency: "ZMW",
-      country: "ZM",
-      amount: 2,
-      customer_email: this.addressForm.controls.email.value,
-      txRef: "MCDL-" + Date.now(), // your unique merchant reference
-      redirect_url: "https://rave-webhook.herokuapp.com/receivepayment",
-    };
 
-    // const chargeDataGlobal = cardInfo;
+      const txref = 'MC-' + this.makeRef(6)
+    const dateArray = this.cardForm.controls.date.value.match(/\d/g);
+      const m1 = dateArray[0] + dateArray[1]
+      const month = m1.replace(/^0+/, '');
+    const year = dateArray[2] + dateArray[3];
 
-    // console.log("CARD DATA>>>>", chargeDataGlobal);
-    // const newdata = {
-    //   PBFPubKey: chargeDataGlobal.PBFPubKey,
-    //   client: cryptico.encrypt(
-    //     JSON.stringify(chargeDataGlobal),
-    //     this.getPublicKey()
-    //   ).cipher,
-    //   alg: "3DES-24",
-    // };
-
-    this.http
-      .post(
-        "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay",
-        cardInfo
-      )
-      .subscribe(
-        (res) => {},
-        (err) => {}
-      );
-  }
-
-  // this is the getKey function that generates an encryption Key for you by passing your Secret Key as a parameter.
-  getKey(seckey) {
-    // const md5 = require("md5");
-    const keymd5 = md5(seckey);
-    const keymd5last12 = keymd5.substr(-12);
-
-    const seckeyadjusted = seckey.replace("FLWSECK-", "");
-    const seckeyadjustedfirst12 = seckeyadjusted.substr(0, 12);
-
-    return seckeyadjustedfirst12 + keymd5last12;
-  }
-
-  // This is the encryption function that encrypts your payload by passing the stringified format and your encryption Key.
-  encrypt(key, text) {
-    // const CryptoJS = require("crypto-js");
-    // const forge = require("node-forge");
-    // const utf8 = require("utf8");
-    const cipher = forge.cipher.createCipher(
-      "3DES-ECB",
-      forge.util.createBuffer(key)
-    );
-    cipher.start({ iv: "" });
-    cipher.update(forge.util.createBuffer(text, "utf-8"));
-    cipher.finish();
-    const encrypted = cipher.output;
-    return forge.util.encode64(encrypted.getBytes());
-  }
-
-  /**** THIS ENCRYPTION SECTION IS FOR FRONT END ECRYPTION***/
-
-  // Encryption can also be done at the front end using `RSA Encryption`:
-  getPublicKey() {
-    // write function to generate Public Key here using RSA Encryption
-    // see cryptico docs on how to do that.
-    // The passphrase used to repeatably generate this RSA key.
-    const PassPhrase = "The Moon is a CRAZY Mistress.";
-
-    // The length of the RSA key, in bits.
-    const Bits = 1024;
-
-    return cryptico.generateRSAKey(PassPhrase, Bits);
-  }
-
-  payWithRave() {}
-
-  confirmPayment(response: object): void {}
-
-  cancelledPayment(): void {}
-
-  generateReference(): string {
-    let text = "";
-    const possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (let i = 0; i < 10; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    for (const l of this.listOfDisplayData) {
+      l.amount = l.amount * l.quantity;
     }
 
-    return text;
+    const sum: number = this.listOfDisplayData
+      .map((a) => a.amount)
+      .reduce((a, b) => {
+        return a + b;
+      });
+
+    this.total = sum  + 40;
+
+    let quantitySum = 0;
+    this.listOfDisplayData.forEach((a) => (quantitySum += Number(a.quantity)));
+
+    this.newQuantity = quantitySum;
+
+
+    const cardPayment = {
+      amount: 1,
+      txref: txref,
+      email: this.addressForm.controls.email.value,
+      customer_phone: this.addressForm.controls.clientPhone.value,
+      currency: 'ZMW',
+      cardno: this.cardForm.controls.cardNumber.value,
+      Cvv: this.cardForm.controls.cvc.value,
+      expirymonth: month,
+      expiryyear: year,
+      pin:''
+    }
+
+
+    this.order = {
+      id: v4(),
+      orderNumber: "",
+      quantity: quantitySum,
+      amount: 1,
+      deliveryStatus: "Not Delivered",
+      paymentMethod: this.selectedPayment,
+      paymentStatus: "Paid",
+      clientName: this.addressForm.controls.clientName.value,
+      clientId: this.userData.id,
+      clientPhone: this.addressForm.controls.clientPhone.value,
+      clientAddress: this.addressForm.controls.clientAddress.value,
+      cart: this.listOfDisplayData,
+    };
+
+
+    this.orderService.cardPayment(cardPayment).subscribe((res: any) => {
+      const authUrl = res.data.data.authurl
+      this.http.get(authUrl).toPromise().catch((err) => {
+        console.log('Card Payment Error', err)
+      });
+
+      this.orderService.addOrder(this.order);
+      for (const cart of this.listOfDisplayData) {
+        cart.checkoutStatus = "Checked Out";
+        this.cartService.updateCart(cart);
+      }
+    }, (errb) => {
+      console.log('Card Payment Error', errb)
+    })
+
+    this.total = 0;
+    this.isVisible = false;
+    this.isAddressConfirmationVisible = false;
+
+    console.log('Card Data', cardPayment)
+
+
+
+
+
   }
+
+
+  handlePay() {
+    for (const l of this.listOfDisplayData) {
+      l.amount = l.amount * l.quantity;
+    }
+
+    const sum: number = this.listOfDisplayData
+      .map((a) => a.amount)
+      .reduce((a, b) => {
+        return a + b;
+      });
+
+    this.total = sum + 40;
+
+    let quantitySum = 0;
+    this.listOfDisplayData.forEach((a) => (quantitySum += Number(a.quantity)));
+
+    this.newQuantity = quantitySum;
+
+    this.order = {
+      id: v4(),
+      orderNumber: "",
+      quantity: quantitySum,
+      amount: this.total,
+      deliveryStatus: "Not Delivered",
+      paymentMethod: this.selectedPayment,
+      paymentStatus: "Not Paid",
+      clientName: this.addressForm.controls.clientName.value,
+      clientId: this.userData.id,
+      clientPhone: this.addressForm.controls.clientPhone.value,
+      clientAddress: this.addressForm.controls.clientAddress.value,
+      cart: this.listOfDisplayData,
+    };
+
+    this.orderService.addOrder(this.order);
+    for (const cart of this.listOfDisplayData) {
+      cart.checkoutStatus = "Checked Out";
+      this.cartService.updateCart(cart);
+    }
+
+    this.total = 0;
+    this.isVisible = false;
+    this.isAddressConfirmationVisible = false;
+
+  }
+
+
+  makeRef(length: number) {
+    let result           = '';
+    const characters       = '0123456789';
+    const charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+
+
 }

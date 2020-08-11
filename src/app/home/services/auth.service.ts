@@ -48,9 +48,10 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(["home"]);
         });
-        this.SetUserData(result.user);
+        // this.SetUserData(result.user);
       })
       .catch((error) => {
+        console.log(error.message)
         this.msg.error(error.message);
       });
   }
@@ -72,10 +73,15 @@ export class AuthService {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         this.SendVerificationMail();
-        this.SetUserData(result.user);
+        this.SetUserData(result.user).then((r) => {
+
+        }).catch((err) => {
+          console.log('Sign Up',err)
+        } );
       })
       .catch((error) => {
-        this.msg.error(error.message);
+        console.log('Main Error', error.message)
+        // this.msg.error(error.message);
       });
   }
 

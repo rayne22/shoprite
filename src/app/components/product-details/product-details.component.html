@@ -47,34 +47,31 @@
           <div class="snipcart-thumb agileinfo_single_right_snipcart">
             <h4>ZMW {{ item.price }}</h4>
           </div>
-          <div class="snipcart-details">
-            <form>
-              <input
-                type="button"
-                name="submit"
-                value="Add to Cart"
-                class="button"
-              />
-            </form>
-          </div>
+<!--          <div class="snipcart-details">-->
+<!--            <form>-->
+<!--              <input-->
+<!--                type="button"-->
+<!--                name="submit"-->
+<!--                value="Add to Cart"-->
+<!--                class="button"-->
+<!--              />-->
+<!--            </form>-->
+<!--          </div>-->
 
           <div
-            *ngIf="!authService.userData"
+
             class="snipcart-details agileinfo_single_right_details"
           >
-            <input
+            <input *ngIf="!authService.userData"
               type="button"
               name="submit"
-              value="Add to cart"
+              value="S"
               class="button"
               (click)="signIn()"
             />
-          </div>
-          <div
-            *ngIf="authService.userData"
-            class="snipcart-details agileinfo_single_right_details"
-          >
-            <input
+
+
+            <input *ngIf="authService.userData"
               type="button"
               name="submit"
               value="Add to cart"
@@ -82,6 +79,18 @@
               (click)="addItem(item)"
             />
           </div>
+<!--          <div-->
+<!--            -->
+<!--            class="snipcart-details agileinfo_single_right_details"-->
+<!--          >-->
+<!--            <input-->
+<!--              type="button"-->
+<!--              name="submit"-->
+<!--              value="Add to cart"-->
+<!--              class="button"-->
+<!--              (click)="addItem(item)"-->
+<!--            />-->
+<!--          </div>-->
         </div>
       </div>
       <div class="clearfix"></div>

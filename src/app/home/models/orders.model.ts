@@ -6,6 +6,8 @@ export class OrderModel {
   quantity: number;
   amount: number;
   deliveryStatus: DeliveryStatus;
+  paymentStatus: PaymentStatus;
+  paymentMethod: string;
   clientName: string;
   clientId: string;
   clientAddress: string;
@@ -14,3 +16,4 @@ export class OrderModel {
 }
 
 export type DeliveryStatus = "Delivered" | "Not Delivered" | "In Transit";
+export type  PaymentStatus = "Paid" | "Not Paid"
