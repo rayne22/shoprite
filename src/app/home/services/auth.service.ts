@@ -64,6 +64,7 @@ export class AuthService {
       clientPhone,
       clientAddress,
     };
+    this.userDetails.defaultCard = false;
     this.usersService.addUser(this.userDetails);
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
