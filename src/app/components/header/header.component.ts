@@ -1,26 +1,19 @@
-import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
-import { CartModel } from "src/app/home/models/cart.model";
-import { CartService } from "src/app/home/services/cart.service";
-import { NzMessageService } from "ng-zorro-antd";
-import { OrderModel } from "src/app/home/models/orders.model";
-import { v4 } from "uuid";
-import { OrdersService } from "src/app/home/services/orders.service";
-import { AuthService } from "src/app/home/services/auth.service";
-import { UsersService } from "src/app/home/services/users.service";
-import { UserModel } from "src/app/home/models/user.model";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import * as cryptico from "node-cryptico";
-import * as CryptoJS from "crypto-js";
-import * as forge from "node-forge";
-import * as utf8 from "utf8";
-import * as md5 from "md5";
-import { HttpClient } from "@angular/common/http";
-import { async } from "rxjs/internal/scheduler/async";
-import { CategoryModel } from "src/app/home/models/categories.model";
-import { CategoriesService } from "src/app/home/services/categories.service";
-import { ItemModel } from "src/app/home/models/items.model";
-import {auth} from "firebase";
+import {Component, Input, OnInit, ViewEncapsulation} from "@angular/core";
+import {CartModel} from "src/app/home/models/cart.model";
+import {CartService} from "src/app/home/services/cart.service";
+import {NzMessageService} from "ng-zorro-antd";
+import {OrderModel} from "src/app/home/models/orders.model";
+import {v4} from "uuid";
+import {OrdersService} from "src/app/home/services/orders.service";
+import {AuthService} from "src/app/home/services/auth.service";
+import {UsersService} from "src/app/home/services/users.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
+import {CategoryModel} from "src/app/home/models/categories.model";
+import {CategoriesService} from "src/app/home/services/categories.service";
+import {ItemModel} from "src/app/home/models/items.model";
+import { CreditCardValidators } from 'angular-cc-library';
 
 @Component({
   selector: "app-header",
@@ -88,9 +81,9 @@ export class HeaderComponent implements OnInit {
     // }, 5000);
 
     this.cardForm = fb.group({
-      cardNumber: ["", Validators.required],
-      date: ["", Validators.required],
-      cvc: ["", Validators.required],
+      cardNumber: ["", [CreditCardValidators.validateCCNumber]],
+      date: ["", [CreditCardValidators.validateExpDate]],
+      cvc: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(4)]],
       cardName: ["", Validators.required],
     });
   }
@@ -214,6 +207,7 @@ export class HeaderComponent implements OnInit {
   }
 
   handleCardInfo() {
+    this.isOkLoading = true;
 
       const txref = 'MC-' + this.makeRef(6)
     const dateArray = this.cardForm.controls.date.value.match(/\d/g);
@@ -240,24 +234,26 @@ export class HeaderComponent implements OnInit {
 
 
     const cardPayment = {
-      amount: 1,
+      amount: this.total,
       txref: txref,
       email: this.addressForm.controls.email.value,
       customer_phone: this.addressForm.controls.clientPhone.value,
       currency: 'ZMW',
-      cardno: this.cardForm.controls.cardNumber.value,
+      cardno: this.cardForm.controls.cardNumber.value.replace(/\s/g, ""),
       Cvv: this.cardForm.controls.cvc.value,
       expirymonth: month,
       expiryyear: year,
       pin:''
     }
 
+    console.log('CARD PAY>>>>', cardPayment)
+
 
     this.order = {
       id: v4(),
       orderNumber: "",
       quantity: quantitySum,
-      amount: 1,
+      amount: this.total,
       deliveryStatus: "Not Delivered",
       paymentMethod: this.selectedPayment,
       paymentStatus: "Paid",
@@ -270,18 +266,25 @@ export class HeaderComponent implements OnInit {
 
 
     this.orderService.cardPayment(cardPayment).subscribe((res: any) => {
-      const authUrl = res.data.data.authurl
-      this.http.get(authUrl).toPromise().catch((err) => {
-        console.log('Card Payment Error', err)
-      });
-
+      console.log('RESULTS>>>', res)
+      if (res.data.data.status === 'success') {
+        this.msg.error(res.data.data.message);
+      } else {
+        this.msg.error(res.data.data.message);
+      }
       this.orderService.addOrder(this.order);
       for (const cart of this.listOfDisplayData) {
         cart.checkoutStatus = "Checked Out";
         this.cartService.updateCart(cart);
       }
-    }, (errb) => {
-      console.log('Card Payment Error', errb)
+
+      window.location.href=res.data.data.authurl;
+
+
+
+    }, (err) => {
+      console.log('Card Payment Error', err)
+      this.isOkLoading = false;
     })
 
     this.total = 0;
@@ -289,10 +292,6 @@ export class HeaderComponent implements OnInit {
     this.isAddressConfirmationVisible = false;
 
     console.log('Card Data', cardPayment)
-
-
-
-
 
   }
 

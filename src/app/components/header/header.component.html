@@ -365,7 +365,7 @@
                   </div>
                 </div>
                 <div class="panel-body">
-                  <form role="form" [formGroup]="cardForm">
+                  <form role="form" [formGroup]="cardForm" novalidate>
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="form-group">
@@ -374,6 +374,7 @@
                             <input
                               formControlName="cardNumber"
                               type="tel"
+                              autocomplete="cc-number" ccNumber
                               class="form-control"
                               placeholder="Valid Card Number"
                             />
@@ -397,6 +398,7 @@
                             type="tel"
                             class="form-control"
                             placeholder="MM / YY"
+                            autocomplete="cc-exp" ccExp
                           />
                         </div>
                       </div>
@@ -407,7 +409,7 @@
                             formControlName="cvc"
                             type="tel"
                             class="form-control"
-                            placeholder="CVC"
+                            placeholder="CVC" autocomplete="off" ccCVC
                           />
                         </div>
                       </div>
@@ -431,7 +433,7 @@
                   <div class="row">
                     <div class="col-xs-12">
                       <button
-                        class="btn btn-warning btn-lg btn-block"
+                        class="btn btn-warning btn-lg btn-block" [disabled]="!cardForm.valid"
                         (click)="handleCardInfo()"
                       >
                         Process payment

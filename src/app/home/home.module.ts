@@ -22,6 +22,7 @@ import { CategoriesService } from "./services/categories.service";
 import { CartService } from "./services/cart.service";
 import { OrdersService } from "./services/orders.service";
 import { AboutUsComponent } from "../about-us/about-us.component";
+import { CreditCardDirectivesModule } from 'angular-cc-library';
 
 const routes: Routes = [
   // {
@@ -67,6 +68,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    CreditCardDirectivesModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
