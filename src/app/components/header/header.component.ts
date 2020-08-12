@@ -268,17 +268,17 @@ export class HeaderComponent implements OnInit {
     this.orderService.cardPayment(cardPayment).subscribe((res: any) => {
       console.log('RESULTS>>>', res)
       if (res.data.data.status === 'success') {
-        this.msg.error(res.data.data.message);
+        this.orderService.addOrder(this.order);
+        for (const cart of this.listOfDisplayData) {
+          cart.checkoutStatus = "Checked Out";
+          this.cartService.updateCart(cart);
+        }
+
+        window.location.href=res.data.data.authurl;
       } else {
         this.msg.error(res.data.data.message);
       }
-      this.orderService.addOrder(this.order);
-      for (const cart of this.listOfDisplayData) {
-        cart.checkoutStatus = "Checked Out";
-        this.cartService.updateCart(cart);
-      }
 
-      window.location.href=res.data.data.authurl;
 
 
 
